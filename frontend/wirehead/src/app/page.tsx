@@ -16,12 +16,12 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center font-mono bg-gray-200">
-      <div className="flex min-h-screen flex-col items-center p-24 w-1/2">
+      <div className="flex min-h-screen flex-col items-center p-24 w-full md:w-1/2">
         <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
         <p className="uppercase tracking-widest font-mono mb-5">ai for hardware.</p>
         <div className="grid grid-cols-2 w-full gap-4">
-          <div>
-            <p>list components</p>
+          <div className="uppercase tracking-widest font-mono mb-5 text-center">
+            <p>list components.</p>
           <div className="rounded-lg border overflow-hidden w-full mt-4">
             {inputs.map((input, idx) => (
               <input
@@ -43,10 +43,10 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <p>provide context</p>
+          <p className="uppercase tracking-widest font-mono text-center">provide context.</p>
           <textarea
             placeholder="What do you want to build?"
-            className="mt-4 px-2 py-1 border rounded-lg w-full h-[calc(100%-2.5rem)] bg-gray-100"
+            className="mt-4 px-2 py-1 border rounded-lg w-full h-[calc(100%-3.7rem)] bg-gray-100"
           />
         </div>
         </div>
