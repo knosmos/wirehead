@@ -16,7 +16,7 @@ class WireInfo(NamedTuple):
 
 
 def pack_components_general(
-    rects: list[tuple[float, float]], wires: list[WireInfo]
+    rects: list[tuple[float, float]], wires: list[WireInfo], constraints: list[bool]
 ) -> list[tuple[float, float]]:
     """
     Packs rectangles that minimizes some combination of:
@@ -31,11 +31,14 @@ def pack_components_general(
                1) wire from rects[source] to recs[dest] (0-indexed)
                2) location_source is the point of the wire in source with respect to its bottom left
                3) location_dest is the point of the wire in dest with respect to its bottom left
-
+        constraints: list of booleans indicating whether each rectangle must be on the edge
     Returns:
         Coordinates of the bottom left of each rectangle with the i-th coordinate corresponding
         to the i-th rectangle in the input.
     """
+    if len(constraints) != len(rects):
+        raise ValueError("Constraints must be the same length as rects")
+
     model = cp_model.CpModel()
     n = len(rects)
 
@@ -75,6 +78,21 @@ def pack_components_general(
         h_used, [y[i] + math.ceil(rects[i][1] * _SCALE) for i in range(n)]
     )
 
+    for i in range(n):
+        b_left = model.NewBoolVar(f"on_left[{i}]")
+        b_bottom = model.NewBoolVar(f"on_bottom[{i}]")
+        b_right = model.NewBoolVar(f"on_right[{i}]")
+        b_top = model.NewBoolVar(f"on_top[{i}]")
+
+        # If bool is true then what is implied by the bool must be true
+        model.Add(x[i] == 0).OnlyEnforceIf(b_left)
+        model.Add(y[i] == 0).OnlyEnforceIf(b_bottom)
+        model.Add(x[i] + w_scaled[i] == w_used).OnlyEnforceIf(b_right)
+        model.Add(y[i] + h_scaled[i] == h_used).OnlyEnforceIf(b_top)
+
+        # At least one bool must be true
+        model.AddBoolOr([b_left, b_bottom, b_right, b_top])
+
     def endpoint_expr(i: int, px: float, py: float) -> Any:
         px_scaled = round(px * _SCALE)
         py_scaled = round(py * _SCALE)
@@ -83,6 +101,7 @@ def pack_components_general(
         return sx, sy
 
     wire_abs_terms = []
+
     for i, w in enumerate(wires):
         sx, sy = endpoint_expr(w.source, *w.location_source)
         dx, dy = endpoint_expr(w.dest, *w.location_dest)
@@ -124,6 +143,7 @@ def pack_components_general(
     else:
         raise RuntimeError(f"Solver failed with status: {status}")
 
+    # Construct solution
     sol = []
 
     for i in range(len(rects)):
