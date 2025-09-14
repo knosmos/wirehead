@@ -249,7 +249,6 @@ export default function Home() {
             </div>
             <svg ref={graphRef} className={fullscreen ? "border rounded shadow w-full h-[90vh] bg-gray-800" : "border rounded shadow w-full bg-gray-800"} />
           </div>
-          <h3 className="text-xl font-bold my-4">Schematic</h3>
         </div>
         <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
           <img src="/board.png" alt="Layout" className="h-15 mr-5 inline"/>

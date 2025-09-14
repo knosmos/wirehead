@@ -50,12 +50,13 @@ def search_symbols(query, limit=10):
     with ix.searcher() as searcher:
         parser = MultifieldParser(["description", "ki_keywords", "value"], schema=ix.schema)
         parser.add_plugin(FuzzyTermPlugin())
-        q = parser.parse(query + "~4")
+        q = parser.parse(query + "~1")
         results = searcher.search(q, limit=limit)
         matches = []
         for hit in results:
             # Find the original symbol dict by name
-            matches.append(hit.fields())
+            if "footprint" in hit.fields() and hit.fields()["footprint"] != "":
+                matches.append(hit.fields())
         return matches
 
 CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
@@ -149,6 +150,7 @@ def gen(idx, names):
     # We'll make a dummy IC for the main device
     print(names[idx].split()[-1])
     results = search_symbols(names[idx].split()[-1])
+    print(results[0])
     device = Part(results[0]["name"].split(":")[0], results[0]["name"].split(":")[1], footprint=results[0]["footprint"])
     components[str(idx) + "_main_device"] = device
     print(len(device))
