@@ -51,6 +51,13 @@ export default function Build() {
     "r5": []
   });
   const graphRef = useRef(null);
+  const [componentLayouts, setComponentLayouts] = useState({
+    "stm32f103": "/layout.png",
+    "drv8825": "/layout.png",
+    "c1": "/layout.png",
+    "c2": "/layout.png",
+  });
+  const [finalComponentLayouts, setFinalComponentLayouts] = useState("/layout.png");
 
   useEffect(() => {
     // Convert adjGraph to nodes and links
@@ -140,11 +147,12 @@ export default function Build() {
       <div className="flex min-h-screen flex-col items-center p-10 w-full md:w-1/2">
         <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
         <hr/>
-        <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-300">
+        <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-100">
           <span className="w-2 h-2 rounded-full mr-5 bg-emerald-800 animate-ping"></span>
           <p className="uppercase tracking-widest font-mono text-emerald-800">status: reading datasheets...</p>
         </div>
-        <h2 className="text-2xl font-bold my-5 font-mono">Component Selection</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Component Selection →</h2>
+        <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="w-full">
           {Object.entries(components).map(([key, comp]) => (
             <div key={key} className="mb-8">
@@ -172,13 +180,28 @@ export default function Build() {
           ))}
         </div>
         <hr/>
-        <h2 className="text-2xl font-bold my-5 font-mono">Schematic Generation</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Schematic Generation →</h2>
+        <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="my-8 w-full">
           <h3 className="text-xl font-bold mb-2">Component Graph</h3>
           <svg ref={graphRef} className="border rounded shadow w-full" />
+          <h3 className="text-xl font-bold my-4">Schematic</h3>
         </div>
         
-        <h2 className="text-2xl font-bold my-5 font-mono">PCB Layout</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Board Layout →</h2>
+        <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
+        <div className="my-8 w-full">
+          <h3 className="text-xl font-bold mb-2">Component Layouts</h3>
+          <div className="grid grid-cols-2 gap-4 w-full">
+            {Object.entries(componentLayouts).map(([compId, layout]) => (
+              <div key={compId} className="border rounded p-4 bg-white">
+                <h4 className="font-bold mb-2">{compId}</h4>
+                <img src={layout} alt={compId} className="w-full h-auto" />
+              </div>
+            ))}
+          </div>
+          <h3 className="text-xl font-bold my-4">Final PCB Layout</h3>
+        </div>
       </div>
     </main>
   );

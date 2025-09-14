@@ -1,0 +1,11 @@
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: Missing tag on R instantiated at C:\proj\wirehead\test_skidl.py:8.
+WARNING: Random tag Nl4Dwwg4bi generated for R.
+WARNING: Missing tag on R instantiated at C:\proj\wirehead\test_skidl.py:8.
+WARNING: Random tag i_c7vgfXvU generated for R.
+WARNING: Missing tag on  instantiated at C:\proj\wirehead\<frozen importlib._bootstrap>:488.
+INFO: 8 warnings found while generating netlist.
+INFO: 0 errors found while generating netlist.
+

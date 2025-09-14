@@ -1,0 +1,119 @@
+(export 
+  (version "D")
+  (design
+    (source "test_skidl.py")
+    (date "09/13/2025 05:00 PM")
+    (tool "SKiDL (2.1.1)")
+    (sheet
+      (number 1)
+      (name "/")
+      (tstamps "/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "test_skidl.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value "")))))
+  (components
+    (comp
+      (ref "R1")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "Nl4Dwwg4bi")
+        (field
+          (name "SKiDL Line") "test_skidl.py:8"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (tstamps "ed63a01a-941d-578f-9795-0abd6f3dc2aa"))
+    (comp
+      (ref "R2")
+      (value "500")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "i_c7vgfXvU")
+        (field
+          (name "SKiDL Line") "test_skidl.py:8"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (tstamps "e3e53fea-ee7e-5eb2-b0bb-ffaa65a2fde2")))
+  (nets
+    (net
+      (code 1)
+      (name "GND")
+      (class "Default")
+      (node
+        (ref "R2")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 2)
+      (name "VI")
+      (class "Default")
+      (node
+        (ref "R1")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 3)
+      (name "VO")
+      (class "Default")
+      (node
+        (ref "R1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R2")
+        (pin "1")
+        (pintype "PASSIVE")))))
