@@ -1,0 +1,41 @@
+{
+    "auxiliary_components": {
+        "decoupling_capacitor_vsp": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "current_sense_resistor": {
+            "type": "resistor", 
+            "value": "2kΩ"
+        }
+    },
+    "device_pins": {
+        "VSP": "device_pin_1", 
+        "IS": "device_pin_2",
+        "VG": "device_pin_3", 
+        "REGS": "device_pin_4",
+        "REGF": "device_pin_5",
+        "VIN": "device_pin_6",
+        "SET": "device_pin_7", 
+        "EF": "device_pin_8",
+        "OD": "device_pin_9",
+        "GND": "device_pin_10"
+    },
+    "connections": {
+        "power_supply": {
+            "VSP": ["decoupling_capacitor_vsp"],
+            "decoupling_capacitor_vsp": ["GND"]
+        },
+        "current_output": {
+            "IS": ["current_sense_resistor"],
+            "current_sense_resistor": ["external_load"]
+        },
+        "input_signal": {
+            "VIN": ["signal_source"],
+            "SET": ["transconductance_setting"]
+        },
+        "ground_connections": {
+            "GND": ["system_ground"]
+        }
+    }
+}
