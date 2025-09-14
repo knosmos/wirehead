@@ -8,10 +8,10 @@ SKIDL_lib_version = '0.0.1'
 test_client = SchLib(tool=SKIDL).add_parts(*[
         Part(**{ 'name':'C', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'C'}), 'ref_prefix':'C', 'fplist':[''], 'footprint':'Capacitor_SMD:C_0603_1608Metric', 'keywords':'cap capacitor', 'description':'Unpolarized capacitor', 'datasheet':'~', 'pins':[
             Pin(num='1',name='~',func=pin_types.PASSIVE,unit=1),
-            Pin(num='2',name='~',func=pin_types.PASSIVE,unit=1)], 'unit_defs':[] }),
+            Pin(num='2',name='~',func=pin_types.PASSIVE,unit=1)] }),
         Part(**{ 'name':'Crystal', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'Crystal'}), 'ref_prefix':'Y', 'fplist':[''], 'footprint':'Crystal:Crystal_0603_1608Metric', 'keywords':'quartz ceramic resonator oscillator', 'description':'Two pin crystal', 'datasheet':'~', 'pins':[
             Pin(num='1',name='1',func=pin_types.PASSIVE,unit=1),
-            Pin(num='2',name='2',func=pin_types.PASSIVE,unit=1)], 'unit_defs':[] }),
+            Pin(num='2',name='2',func=pin_types.PASSIVE,unit=1)] }),
         Part(**{ 'name':'ATSAME70J21A-AN', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'ATSAME70J21A-AN'}), 'ref_prefix':'U', 'fplist':['Package_QFP:LQFP-64_10x10mm_P0.5mm'], 'footprint':'Package_QFP:LQFP-64_10x10mm_P0.5mm', 'keywords':'32-bit ARM Cortex-M7 MCU Microcontroller', 'description':'SAM E70 Microchip SMART ARM Cortex-M7-based MCU, 2048K Flash, 384K SRAM, LQFP64', 'datasheet':'http://ww1.microchip.com/downloads/en/DeviceDoc/SAM-E70-S70-V70-V71-Family-Data-Sheet-DS60001527D.pdf', 'pins':[
             Pin(num='64',name='VDDPLLUSB',func=pin_types.PWRIN,unit=1),
             Pin(num='40',name='PA3',func=pin_types.BIDIR,unit=1),
@@ -76,10 +76,10 @@ test_client = SchLib(tool=SKIDL).add_parts(*[
             Pin(num='22',name='PD24',func=pin_types.BIDIR,unit=1),
             Pin(num='20',name='PD25',func=pin_types.BIDIR,unit=1),
             Pin(num='21',name='PD26',func=pin_types.BIDIR,unit=1),
-            Pin(num='2',name='PD31',func=pin_types.BIDIR,unit=1)], 'unit_defs':[] }),
+            Pin(num='2',name='PD31',func=pin_types.BIDIR,unit=1)] }),
         Part(**{ 'name':'R', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'R'}), 'ref_prefix':'R', 'fplist':[''], 'footprint':'Resistor_SMD:R_0603_1608Metric', 'keywords':'R res resistor', 'description':'Resistor', 'datasheet':'~', 'pins':[
             Pin(num='1',name='~',func=pin_types.PASSIVE,unit=1),
-            Pin(num='2',name='~',func=pin_types.PASSIVE,unit=1)], 'unit_defs':[] }),
+            Pin(num='2',name='~',func=pin_types.PASSIVE,unit=1)] }),
         Part(**{ 'name':'XTR111AxDGQ', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'XTR111AxDGQ'}), 'ref_prefix':'U', 'fplist':['Package_SO:MSOP-10-1EP_3x3mm_P0.5mm_EP2.2x3.1mm_Mask1.83x1.89mm_ThermalVias'], 'footprint':'Package_SO:MSOP-10-1EP_3x3mm_P0.5mm_EP2.2x3.1mm_Mask1.83x1.89mm_ThermalVias', 'keywords':'0-20mA 4-20mA Current Loop Transmitter Voltage To Current', 'description':'0-20mA/4-20mA Current Loop Transmitter, Precision Voltage-To-Current, MSOP-10', 'datasheet':'https://www.ti.com/lit/ds/symlink/xtr111.pdf', 'pins':[
             Pin(num='5',name='REGF',func=pin_types.OUTPUT,unit=1),
             Pin(num='4',name='REGS',func=pin_types.INPUT,unit=1),
@@ -91,7 +91,7 @@ test_client = SchLib(tool=SKIDL).add_parts(*[
             Pin(num='9',name='OD',func=pin_types.INPUT,unit=1),
             Pin(num='8',name='~{EF}',func=pin_types.OPENCOLL,unit=1),
             Pin(num='2',name='IS',func=pin_types.OUTPUT,unit=1),
-            Pin(num='3',name='VG',func=pin_types.OUTPUT,unit=1)], 'unit_defs':[] }),
+            Pin(num='3',name='VG',func=pin_types.OUTPUT,unit=1)] }),
         Part(**{ 'name':'AP33771', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'AP33771'}), 'ref_prefix':'U', 'fplist':['Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm'], 'footprint':'Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm', 'keywords':'USB Type C PD Sink', 'description':'USB Type-C PD Sink Controller, QFN-24', 'datasheet':'https://www.diodes.com/assets/Datasheets/AP33771.pdf', 'pins':[
             Pin(num='1',name='ISENP',func=pin_types.BIDIR,unit=1),
             Pin(num='17',name='CC1',func=pin_types.BIDIR,unit=1),
@@ -117,4 +117,4 @@ test_client = SchLib(tool=SKIDL).add_parts(*[
             Pin(num='14',name='VFB',func=pin_types.INPUT,unit=1),
             Pin(num='15',name='IFB',func=pin_types.INPUT,unit=1),
             Pin(num='8',name='GPIO1',func=pin_types.BIDIR,unit=1),
-            Pin(num='6',name='GPIO4',func=pin_types.BIDIR,unit=1)], 'unit_defs':[] })])
+            Pin(num='6',name='GPIO4',func=pin_types.BIDIR,unit=1)] })])

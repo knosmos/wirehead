@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 export default function Home() {
+  const [fullscreen, setFullscreen] = useState(false);
   const [components, setComponents] = useState<any>({});
   const [adjGraph, setAdjGraph] = useState<any>({});
   const [buildStatus, setBuildStatus] = useState<string>("");
@@ -20,7 +21,9 @@ export default function Home() {
         const data = await res.json();
         console.log(data);
         if (isMounted) {
-          setComponents(data.components || {});
+          if (JSON.stringify(data.components) != JSON.stringify(components)) {
+            setComponents(data.components || {});
+          }
           if (JSON.stringify(data.adjGraph) != JSON.stringify(adjGraph)) {
             console.log(adjGraph);
             console.log(JSON.stringify(data.adjGraph), JSON.stringify(adjGraph));
@@ -39,32 +42,47 @@ export default function Home() {
     };
     poll();
     return () => { isMounted = false; };
-  }, [adjGraph]);
+  }, [adjGraph, components]);
   const graphRef = useRef(null);
+  const graphContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Convert adjGraph to nodes and links
-    type NodeType = { id: string; x?: number; y?: number; fx?: number | null; fy?: number | null };
+    // Hierarchical node support: if a node has a property 'subgraph', treat it as a graph-node
+    type NodeType = { id: string; x?: number; y?: number; fx?: number | null; fy?: number | null; subgraph?: any };
     type LinkType = { source: string; target: string };
-    const nodes: NodeType[] = Object.keys(adjGraph).map(id => ({ id }));
+    // Example: adjGraph = { A: [B], B: [C], G1: [A], G2: [], ... } and components[G1].subgraph = {...}
+    const nodes: NodeType[] = Object.keys(adjGraph).map(id => {
+      if (components[id] && components[id].subgraph) {
+        return { id, subgraph: components[id].subgraph };
+      }
+      return { id };
+    });
     const links: LinkType[] = Object.entries(adjGraph).flatMap(([source, targets]) =>
       (Array.isArray(targets) ? targets : []).map((target: string) => ({ source, target }))
     );
 
-    const width = 400, height = 300;
+    const width = fullscreen ? window.innerWidth : 400;
+    const height = fullscreen ? window.innerHeight : 300;
     const svgEl = d3.select(graphRef.current)
       .attr("width", width)
       .attr("height", height)
-      .style("background", "#f8fafc");
+      .style("background", "#161e29");
 
     // Remove previous graph content
     svgEl.selectAll("g").remove();
     svgEl.selectAll("text").remove();
 
     const simulation = d3.forceSimulation<NodeType>(nodes)
-      .force("link", d3.forceLink<NodeType, LinkType>(links).id((d: NodeType) => d.id).distance(120))
+      .force("link", d3.forceLink<NodeType, LinkType>(links).id((d: NodeType) => d.id).distance(180))
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2));
+
+    // If fullscreen, move all nodes to center
+    if (fullscreen) {
+      simulation.force("center", null);
+      simulation.force("center", d3.forceCenter(width / 2, height / 2));
+      simulation.alpha(1).restart();
+    }
 
     const link = svgEl.append("g")
       .attr("stroke", "#888")
@@ -73,14 +91,54 @@ export default function Home() {
       .data(links)
       .enter().append("line");
 
-    const node = svgEl.append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 2)
-      .selectAll("circle")
+    // Draw nodes
+    const nodeGroup = svgEl.append("g");
+    const node = nodeGroup.selectAll("g.node")
       .data(nodes)
-      .enter().append("circle")
-      .attr("r", 24)
-      .attr("fill", "#054a22");
+      .enter().append("g")
+      .attr("class", "node");
+
+    // Draw main node circle
+    node.append("circle")
+      .attr("r", d => d.subgraph ? 60 : 40)
+      .attr("fill", d => d.subgraph ? "#242f40" : "#208a1a")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 1);
+
+    // If node is a graph-node, draw subnodes inside
+    node.filter(d => d.subgraph).each(function(d) {
+      const subgraph = d.subgraph;
+      const subnodes = Object.keys(subgraph).map(id => ({ id }));
+      // Arrange subnodes in a circle inside the parent
+      const r = 35;
+      subnodes.forEach((sub, i) => {
+        const angle = (2 * Math.PI * i) / subnodes.length;
+        d3.select(this).append("circle")
+          .attr("cx", r * Math.cos(angle))
+          .attr("cy", r * Math.sin(angle))
+          .attr("r", 20)
+          .attr("fill", "#208a1a")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1);
+        d3.select(this).append("text")
+          .attr("x", r * Math.cos(angle))
+          .attr("y", r * Math.sin(angle) + 4)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "0.5rem")
+          .attr("fill", "#fff")
+          .text(sub.id);
+      });
+    });
+
+    // Node labels
+    node.append("text")
+      .text((d: NodeType) => d.id)
+      .attr("text-anchor", "middle")
+      .attr("dy", d => d.subgraph ? -70 : 2)
+      .attr("font-size", "0.7rem")
+      .attr("fill", d => d.subgraph ? "#fff" : "#fff");
+
+    // Drag behavior
     (node as any).call(d3.drag()
       .on("start", function(event, d) {
         const node = d as NodeType;
@@ -101,16 +159,6 @@ export default function Home() {
       })
     );
 
-    const label = svgEl.append("g")
-      .selectAll("text")
-      .data(nodes)
-      .enter().append("text")
-      .text((d: NodeType) => d.id)
-      .attr("text-anchor", "middle")
-      .attr("dy", ".35em")
-      .attr("font-size", "0.5rem")
-      .attr("fill", "#fff");
-
     simulation.on("tick", () => {
       link
         .attr("x1", (d: any) => ((d.source as NodeType).x ?? 0))
@@ -118,17 +166,13 @@ export default function Home() {
         .attr("x2", (d: any) => ((d.target as NodeType).x ?? 0))
         .attr("y2", (d: any) => ((d.target as NodeType).y ?? 0));
       node
-        .attr("cx", (d: NodeType) => d.x ?? 0)
-        .attr("cy", (d: NodeType) => d.y ?? 0);
-      label
-        .attr("x", (d: NodeType) => d.x ?? 0)
-        .attr("y", (d: NodeType) => d.y ?? 0);
+        .attr("transform", (d: NodeType) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
-  }, [adjGraph]);
+  }, [adjGraph, components, fullscreen]);
   return (
     <main className="flex min-h-screen flex-col items-center font-mono bg-gray-200">
       <div className="flex min-h-screen flex-col items-center p-10 w-full md:w-1/2">
-        <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
+        <h1 className="text-6xl font-bold my-5 font-serif text-emerald-800">Wirehead</h1>
         <img src="/logo.png" alt="Wirehead Logo" className="h-32 mb-5"/>
         <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-100">
           <span className="w-2 h-2 rounded-full mr-5 bg-emerald-800 animate-ping"></span>
@@ -185,8 +229,21 @@ export default function Home() {
           Schematic Generation →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="my-8 w-full">
-          <h3 className="text-xl font-bold mb-2">Component Graph</h3>
-          <svg ref={graphRef} className="border rounded shadow w-full" />
+          <div ref={graphContainerRef} className={fullscreen ? "fixed inset-0 p-5 bg-gray-200" : "relative"} style={fullscreen ? {width: "100vw", height: "100vh"} : {}}>
+            <div className="flex justify-between items-center w-full mb-2">
+              <h3 className="text-xl font-bold">Component Graph</h3>
+              <button
+                className={fullscreen ? "px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600" : "px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500"}
+                style={{zIndex: 60}}
+                onClick={() => {
+                  setFullscreen(f => !f);
+                }}
+              >
+                {fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              </button>
+            </div>
+            <svg ref={graphRef} className={fullscreen ? "border rounded shadow w-full h-[90vh] bg-gray-800" : "border rounded shadow w-full bg-gray-800"} />
+          </div>
           <h3 className="text-xl font-bold my-4">Schematic</h3>
         </div>
         <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
