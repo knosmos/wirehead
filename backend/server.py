@@ -9,9 +9,59 @@ COMPONENTS = []
 CONTEXT = ""
 BUILD_STATE = {
     "status": "idle",
-    "components": {},
-    "adjGraph": {},
-    "layouts": {},
+    "components": {
+    "stm32f103": {
+      "name": "STM32",
+      "description": "Primary microcontroller unit (MCU) for processing and control.",
+      "img": "/component.jpg",
+      "submodules": {
+        "220uF_capacitor": {
+          "name": "220uF Capacitor",
+          "description": "Stabilizes power supply to the MCU.",
+          "img": "/component.jpg",
+        },
+        "10k_resistor": {
+          "name": "10k Resistor",
+          "description": "Pull-up resistor for reset pin.",
+          "img": "/component.jpg",
+        }
+      }
+    },
+    "drv8825": {
+      "name": "DRV8825",
+      "description": "Step motor driver for controlling stepper motors.",
+      "img": "/component.jpg",
+      "submodules": {
+        "100uF_capacitor": {
+          "name": "100uF Capacitor",
+          "description": "Filters voltage spikes from motor operation.",
+          "img": "/component.jpg",
+        },
+        "1k_resistor": {
+          "name": "1k Resistor",
+          "description": "Current limiting resistor for stepper motor coils.",
+          "img": "/component.jpg",
+        }
+      }
+    }
+    },
+    "adjGraph": {
+    "stm32f103": ["drv8825"],
+    "r1": ["stm32f103"],
+    "r2": ["stm32f103"],
+    "r3": ["stm32f103"],
+    "r4": ["stm32f103"],
+    "drv8825": ["c1","c2","r5"],
+    "c1": [],
+    "c2": [],
+    "r5": []
+  },
+    "layouts": {
+    "stm32f103": "/layout.png",
+    "drv8825": "/layout.png",
+    "c1": "/layout.png",
+    "c2": "/layout.png",
+  } ,
 }
 
 @app.route('/setquery', methods=['POST'])

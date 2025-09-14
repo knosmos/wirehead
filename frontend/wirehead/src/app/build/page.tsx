@@ -2,62 +2,45 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-export default function Build() {
-  const [components, setComponents] = useState({
-    "stm32f103": {
-      name: "STM32",
-      description: "Primary microcontroller unit (MCU) for processing and control.",
-      img: "/component.jpg",
-      submodules: {
-        "220uF_capacitor": {
-          name: "220uF Capacitor",
-          description: "Stabilizes power supply to the MCU.",
-          img: "/component.jpg",
-        },
-        "10k_resistor": {
-          name: "10k Resistor",
-          description: "Pull-up resistor for reset pin.",
-          img: "/component.jpg",
+export default function Home() {
+  const [components, setComponents] = useState<any>({});
+  const [adjGraph, setAdjGraph] = useState<any>({});
+  const [buildStatus, setBuildStatus] = useState<string>("");
+  const [layouts, setPcbLayout] = useState<any>({});
+  const [finalPcbLayout, setFinalPcbLayout] = useState<any>({});
+  const [schematic, setSchematic] = useState<any>("");
+  const [solverStatus, setSolverStatus] = useState<string>("");
+  // Poll build status from backend
+  useEffect(() => {
+    let isMounted = true;
+    const poll = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/buildstatus');
+        if (!res.ok) throw new Error('Failed to fetch build status');
+        const data = await res.json();
+        console.log(data);
+        if (isMounted) {
+          setComponents(data.components || {});
+          if (JSON.stringify(data.adjGraph) != JSON.stringify(adjGraph)) {
+            console.log(adjGraph);
+            console.log(JSON.stringify(data.adjGraph), JSON.stringify(adjGraph));
+            setAdjGraph(data.adjGraph);
+          }
+          setBuildStatus(data.buildStatus || "");
+          setPcbLayout(data.layouts || null);
+          setFinalPcbLayout(data.fullLayout || null);
+          setSchematic(data.schematic || null);
+          setSolverStatus(data.solverStatus || "");
         }
+      } catch (err) {
+        // Optionally handle error
       }
-    },
-    "drv8825": {
-      name: "DRV8825",
-      description: "Step motor driver for controlling stepper motors.",
-      img: "/component.jpg",
-      submodules: {
-        "100uF_capacitor": {
-          name: "100uF Capacitor",
-          description: "Filters voltage spikes from motor operation.",
-          img: "/component.jpg",
-        },
-        "1k_resistor": {
-          name: "1k Resistor",
-          description: "Current limiting resistor for stepper motor coils.",
-          img: "/component.jpg",
-        }
-      }
-    }
-  });
-  const [adjGraph, setAdjGraph] = useState({
-    "stm32f103": ["drv8825"],
-    "r1": ["stm32f103"],
-    "r2": ["stm32f103"],
-    "r3": ["stm32f103"],
-    "r4": ["stm32f103"],
-    "drv8825": ["c1","c2","r5"],
-    "c1": [],
-    "c2": [],
-    "r5": []
-  });
+      if (isMounted) setTimeout(poll, 2000);
+    };
+    poll();
+    return () => { isMounted = false; };
+  }, [adjGraph]);
   const graphRef = useRef(null);
-  const [componentLayouts, setComponentLayouts] = useState({
-    "stm32f103": "/layout.png",
-    "drv8825": "/layout.png",
-    "c1": "/layout.png",
-    "c2": "/layout.png",
-  });
-  const [finalComponentLayouts, setFinalComponentLayouts] = useState("/layout.png");
 
   useEffect(() => {
     // Convert adjGraph to nodes and links
@@ -65,7 +48,7 @@ export default function Build() {
     type LinkType = { source: string; target: string };
     const nodes: NodeType[] = Object.keys(adjGraph).map(id => ({ id }));
     const links: LinkType[] = Object.entries(adjGraph).flatMap(([source, targets]) =>
-      targets.map(target => ({ source, target }))
+      (Array.isArray(targets) ? targets : []).map((target: string) => ({ source, target }))
     );
 
     const width = 400, height = 300;
@@ -146,59 +129,82 @@ export default function Build() {
     <main className="flex min-h-screen flex-col items-center font-mono bg-gray-200">
       <div className="flex min-h-screen flex-col items-center p-10 w-full md:w-1/2">
         <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
-        <hr/>
+        <img src="/logo.png" alt="Wirehead Logo" className="h-32 mb-5"/>
         <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-100">
           <span className="w-2 h-2 rounded-full mr-5 bg-emerald-800 animate-ping"></span>
           <p className="uppercase tracking-widest font-mono text-emerald-800">status: reading datasheets...</p>
         </div>
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Component Selection →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/component_selection.png" alt="Component Selection" className="h-15 mr-5 inline"/>
+          Component Selection →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="w-full">
-          {Object.entries(components).map(([key, comp]) => (
-            <div key={key} className="mb-8">
-              <div className="flex items-center mb-4">
-                <img src={comp.img} alt={comp.name} className="w-24 h-24 mr-4 rounded-lg border"/>
-                <div>
-                  <h3 className="text-xl font-bold">{comp.name}</h3>
-                  <p className="text-gray-600">{comp.description}</p>
+          {Object.entries(components).map(([key, compObj]) => {
+            const comp = compObj as {
+              img: string;
+              name: string;
+              description: string;
+              submodules?: Record<string, any>;
+            };
+            return (
+              <div key={key} className="mb-8">
+                <div className="flex items-center mb-4">
+                  <img src={comp.img} alt={comp.name} className="w-24 h-24 mr-4 rounded-lg border"/>
+                  <div>
+                    <h3 className="text-xl font-bold">{comp.name}</h3>
+                    <p className="text-gray-600">{comp.description}</p>
+                  </div>
                 </div>
+                {comp.submodules && (
+                  <div className="ml-8 border-l-2 border-gray-300 pl-4">
+                    {Object.entries(comp.submodules).map(([subKey, subCompObj]) => {
+                      const subComp = subCompObj as {
+                        img: string;
+                        name: string;
+                        description: string;
+                      };
+                      return (
+                        <div key={subKey} className="flex items-center mb-2">
+                          <img src={subComp.img} alt={subComp.name} className="w-12 h-12 mr-4 rounded-lg border"/>
+                          <div>
+                            <h5 className="font-bold">{subComp.name}</h5>
+                            <p className="text-gray-600">{subComp.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              {comp.submodules && (
-                <div className="ml-8 border-l-2 border-gray-300 pl-4">
-                  {Object.entries(comp.submodules).map(([subKey, subComp]) => (
-                    <div key={subKey} className="flex items-center mb-2">
-                      <img src={subComp.img} alt={subComp.name} className="w-12 h-12 mr-4 rounded-lg border"/>
-                      <div>
-                        <h5 className="font-bold">{subComp.name}</h5>
-                        <p className="text-gray-600">{subComp.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
         <hr/>
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Schematic Generation →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/netlist.png" alt="Netlist" className="h-15 mr-5 inline"/>
+          Schematic Generation →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="my-8 w-full">
           <h3 className="text-xl font-bold mb-2">Component Graph</h3>
           <svg ref={graphRef} className="border rounded shadow w-full" />
           <h3 className="text-xl font-bold my-4">Schematic</h3>
         </div>
-        
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Board Layout →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/board.png" alt="Layout" className="h-15 mr-5 inline"/>
+          Board Layout →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="my-8 w-full">
           <h3 className="text-xl font-bold mb-2">Component Layouts</h3>
           <div className="grid grid-cols-2 gap-4 w-full">
-            {Object.entries(componentLayouts).map(([compId, layout]) => (
-              <div key={compId} className="border rounded p-4 bg-white">
-                <h4 className="font-bold mb-2">{compId}</h4>
-                <img src={layout} alt={compId} className="w-full h-auto" />
-              </div>
-            ))}
+            {Object.entries(layouts).map(([compId, layoutObj]) => {
+              const layout = layoutObj as string;
+              return (
+                <div key={compId} className="border rounded p-4 bg-white">
+                  <h4 className="font-bold mb-2">{compId}</h4>
+                  <img src={layout} alt={compId} className="w-full h-auto" />
+                </div>
+              );
+            })}
           </div>
           <h3 className="text-xl font-bold my-4">Final PCB Layout</h3>
         </div>
