@@ -225,6 +225,43 @@ def run(BUILD_STATE, n, names):
         d2s[i] = json.loads(d2s[i])
     
     try:
+        headers = {
+            "Authorization": f"Bearer gk-iUzbF2OP_7oug91ht53",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": "casperhansen/deepseek-r1-distill-llama-70b-awq",
+            "messages": [
+                {"role": "user", "content": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
+                    "\n\n".join(datas)}
+            ]
+        }
+        response = requests.post(url, headers=headers, json=data)
+        for i in range(n):
+            gen(i, names)
+            BUILD_STATE["status"] = f"wiring auxiliary parts for component {i+1}/{n}"
+            yield BUILD_STATE, False
+
+        BUILD_STATE["status"] = "wiring major components..."
+        yield BUILD_STATE, False
+
+        info = response.json()["connections"]
+
+        print(info)
+
+        # remap this to create an adjacency list
+        readable_adj = {
+            name: [] for name in names if name.strip() != ""
+        }
+        for node_idx, neighbors in info.items():
+            node_name = names[int(node_idx.split("_")[0])]
+            if node_name not in readable_adj:
+                readable_adj[node_name] = []
+            for neighbor in neighbors:
+                neighbor_name = names[int(neighbor.split("_")[0])]
+                readable_adj[node_name].append(neighbor_name)
+        BUILD_STATE["adjGraph"] = readable_adj
+    except:
         client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
         message = client.messages.create(
             model="claude-3-5-haiku-20241022",
@@ -242,35 +279,6 @@ def run(BUILD_STATE, n, names):
         BUILD_STATE["status"] = "wiring major components..."
         yield BUILD_STATE, False
         info = json.loads(message.content[0].text)["connections"]
-        print(info)
-
-        # remap this to create an adjacency list
-        readable_adj = {
-            name: [] for name in names if name.strip() != ""
-        }
-        for node_idx, neighbors in info.items():
-            node_name = names[int(node_idx.split("_")[0])]
-            if node_name not in readable_adj:
-                readable_adj[node_name] = []
-            for neighbor in neighbors:
-                neighbor_name = names[int(neighbor.split("_")[0])]
-                readable_adj[node_name].append(neighbor_name)
-        BUILD_STATE["adjGraph"] = readable_adj
-    except:
-        headers = {
-            "Authorization": f"Bearer gk-iUzbF2OP_7oug91ht53",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "model": "casperhansen/deepseek-r1-distill-llama-70b-awq",
-            "messages": [
-                {"role": "user", "content": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
-                    "\n\n".join(datas)}
-            ]
-        }
-        response = requests.post(url, headers=headers, json=data)
-        print(response.json())
-        info = response.json()["connections"]
 
     for n1, n2s in info.items():
         for n2 in n2s:
