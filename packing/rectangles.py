@@ -7,9 +7,9 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 from ortools.sat.python import cp_model
 
-_LAMBDA_SIZE = 2
-_LAMBDA_WIRE = 4
-_SCALE = 100.0
+_LAMBDA_SIZE = 1
+_LAMBDA_WIRE = 1
+_SCALE = 1e-3
 
 
 class WireInfo(NamedTuple):
@@ -138,7 +138,7 @@ def pack_components_general(
 
     # Solve
     solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = 8.0
+    solver.parameters.max_time_in_seconds = 10.0
 
     status = solver.Solve(model)
 
@@ -162,6 +162,12 @@ def pack_components_general(
         yi = solver.Value(y[i]) / _SCALE
         sol.append((xi, yi))
 
+    sol.append(
+        (
+            math.ceil(solver.Value(w_used) / _SCALE),
+            math.ceil(solver.Value(h_used) / _SCALE),
+        )
+    )
     return sol
 
 
