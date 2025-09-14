@@ -8,6 +8,7 @@ import os
 import massive
 import json
 import autoroute
+import layout
 
 app = Flask(__name__)
 CORS(app)
@@ -220,8 +221,9 @@ def run_pipeline(components, context):
 
     # for (state, complete) in layout.run(BUILD_STATE, len(names), components):
     #     BUILD_STATE = state
+    layout.run()
 
-    # autoroute.run()
+    autoroute.run()
 
 
 @app.route("/setquery", methods=["POST"])

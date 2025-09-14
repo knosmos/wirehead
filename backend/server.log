@@ -1,36 +1,36 @@
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
-WARNING: Merging two named nets (0_device_pin_1 and 1_device_pin_8) into 0_device_pin_1. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
-WARNING: Merging two named nets (0_device_pin_6 and 0_device_pin_5) into 0_device_pin_6. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
-WARNING: Merging two named nets (0_device_pin_31 and 1_device_pin_4) into 0_device_pin_31. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
-WARNING: Merging two named nets (2_device_pin_1 and 0_device_pin_12) into 2_device_pin_1. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
-WARNING: Merging two named nets (0_device_pin_31 and 2_device_pin_1) into 0_device_pin_31. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
-WARNING: Merging two named nets (2_device_pin_3 and 1_device_pin_1) into 2_device_pin_3. @ [C:\proj\wirehead\backend\server.py:218=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (0_device_pin_1 and 1_device_pin_8) into 0_device_pin_1. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (0_device_pin_5 and 0_device_pin_6) into 0_device_pin_5. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (2_device_pin_1 and 1_device_pin_4) into 2_device_pin_1. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (0_device_pin_31 and 0_device_pin_12) into 0_device_pin_31. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (2_device_pin_1 and 0_device_pin_31) into 2_device_pin_1. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
+WARNING: Merging two named nets (0_device_pin_13 and 1_device_pin_1) into 0_device_pin_13. @ [C:\proj\wirehead\backend\server.py:219=>C:\proj\wirehead\backend\massive.py:272]
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag 27Onbwqhq7 generated for C.
+WARNING: Random tag diAyedtJfi generated for C.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag FaM1o6vJqK generated for C.
+WARNING: Random tag F9DhcaevwX generated for C.
 WARNING: Missing tag on Crystal instantiated at C:\proj\wirehead\backend\massive.py:138.
-WARNING: Random tag uacoX2PmVP generated for Crystal.
+WARNING: Random tag LxjvE_Z01i generated for Crystal.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag Hbw9_TwgOc generated for C.
+WARNING: Random tag gwdjszg3ct generated for C.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag UCPE0HHBnR generated for C.
+WARNING: Random tag UDVRymDmj6 generated for C.
 WARNING: Missing tag on STM32F030C8Tx instantiated at C:\proj\wirehead\backend\massive.py:154.
-WARNING: Random tag _4NG9sdPyd generated for STM32F030C8Tx.
+WARNING: Random tag DHirDcpy9F generated for STM32F030C8Tx.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag XrS_Z6nCFu generated for C.
+WARNING: Random tag GM9fJOtpqx generated for C.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag lCypf_Oher generated for C.
+WARNING: Random tag WBEqc9TpmS generated for C.
 WARNING: Missing tag on DRV8838 instantiated at C:\proj\wirehead\backend\massive.py:154.
-WARNING: Random tag n96CYwAeoT generated for DRV8838.
+WARNING: Random tag XC4i0Bncm6 generated for DRV8838.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag 8RykV0WjqV generated for C.
+WARNING: Random tag veE2R_ZCkO generated for C.
 WARNING: Missing tag on C instantiated at C:\proj\wirehead\backend\massive.py:132.
-WARNING: Random tag L7CaWO8Ol3 generated for C.
+WARNING: Random tag HswUQlGaKA generated for C.
 WARNING: Missing tag on AMS1117 instantiated at C:\proj\wirehead\backend\massive.py:154.
-WARNING: Random tag TUN6WWo3IY generated for AMS1117.
+WARNING: Random tag JlNS0p76ec generated for AMS1117.
 WARNING: Missing tag on  instantiated at C:\proj\wirehead\backend\<frozen importlib._bootstrap>:488.
 INFO: 34 warnings found while generating netlist.
 INFO: 0 errors found while generating netlist.

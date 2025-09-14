@@ -254,7 +254,8 @@ export default function Home() {
           <img src="/board.png" alt="Layout" className="h-15 mr-5 inline"/>
           Board Layout →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
-        <div className="my-8 w-full">
+        <h3 className="text-xl font-bold mb-2">Warning! The agent will briefly control the mouse and keyboard.</h3>
+        {/* <div className="my-8 w-full">
           <h3 className="text-xl font-bold mb-2">Component Layouts</h3>
           <div className="grid grid-cols-2 gap-4 w-full">
             {Object.entries(layouts).map(([compId, layoutObj]) => {
@@ -268,7 +269,7 @@ export default function Home() {
             })}
           </div>
           <h3 className="text-xl font-bold my-4">Final PCB Layout</h3>
-        </div>
+        </div> */}
       </div>
     </main>
   );
