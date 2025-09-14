@@ -2,86 +2,92 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-export default function Build() {
-  const [components, setComponents] = useState({
-    "stm32f103": {
-      name: "STM32",
-      description: "Primary microcontroller unit (MCU) for processing and control.",
-      img: "/component.jpg",
-      submodules: {
-        "220uF_capacitor": {
-          name: "220uF Capacitor",
-          description: "Stabilizes power supply to the MCU.",
-          img: "/component.jpg",
-        },
-        "10k_resistor": {
-          name: "10k Resistor",
-          description: "Pull-up resistor for reset pin.",
-          img: "/component.jpg",
+export default function Home() {
+  const [fullscreen, setFullscreen] = useState(false);
+  const [components, setComponents] = useState<any>({});
+  const [adjGraph, setAdjGraph] = useState<any>({});
+  const [buildStatus, setBuildStatus] = useState<string>("");
+  const [layouts, setPcbLayout] = useState<any>({});
+  const [finalPcbLayout, setFinalPcbLayout] = useState<any>({});
+  const [schematic, setSchematic] = useState<any>("");
+  const [solverStatus, setSolverStatus] = useState<string>("");
+  // Poll build status from backend
+  useEffect(() => {
+    let isMounted = true;
+    const poll = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/buildstatus');
+        if (!res.ok) throw new Error('Failed to fetch build status');
+        const data = await res.json();
+        console.log(data);
+        if (isMounted) {
+          if (JSON.stringify(data.components) != JSON.stringify(components)) {
+            setComponents(data.components || {});
+          }
+          if (JSON.stringify(data.adjGraph) != JSON.stringify(adjGraph)) {
+            console.log(adjGraph);
+            console.log(JSON.stringify(data.adjGraph), JSON.stringify(adjGraph));
+            setAdjGraph(data.adjGraph);
+          }
+          setBuildStatus(data.status || "");
+          setPcbLayout(data.layouts || {});
+          setFinalPcbLayout(data.fullLayout || null);
+          setSchematic(data.schematic || null);
+          setSolverStatus(data.solverStatus || "");
         }
+      } catch (err) {
+        // Optionally handle error
       }
-    },
-    "drv8825": {
-      name: "DRV8825",
-      description: "Step motor driver for controlling stepper motors.",
-      img: "/component.jpg",
-      submodules: {
-        "100uF_capacitor": {
-          name: "100uF Capacitor",
-          description: "Filters voltage spikes from motor operation.",
-          img: "/component.jpg",
-        },
-        "1k_resistor": {
-          name: "1k Resistor",
-          description: "Current limiting resistor for stepper motor coils.",
-          img: "/component.jpg",
-        }
-      }
-    }
-  });
-  const [adjGraph, setAdjGraph] = useState({
-    "stm32f103": ["drv8825"],
-    "r1": ["stm32f103"],
-    "r2": ["stm32f103"],
-    "r3": ["stm32f103"],
-    "r4": ["stm32f103"],
-    "drv8825": ["c1","c2","r5"],
-    "c1": [],
-    "c2": [],
-    "r5": []
-  });
+      if (isMounted) setTimeout(poll, 2000);
+    };
+    poll();
+    return () => { isMounted = false; };
+  }, [adjGraph, components]);
   const graphRef = useRef(null);
-  const [componentLayouts, setComponentLayouts] = useState({
-    "stm32f103": "/layout.png",
-    "drv8825": "/layout.png",
-    "c1": "/layout.png",
-    "c2": "/layout.png",
-  });
-  const [finalComponentLayouts, setFinalComponentLayouts] = useState("/layout.png");
+  const graphContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Convert adjGraph to nodes and links
-    type NodeType = { id: string; x?: number; y?: number; fx?: number | null; fy?: number | null };
+    if (!graphRef.current) return;
+    if (!adjGraph || Object.keys(adjGraph).length === 0) {
+      d3.select(graphRef.current).selectAll("*").remove();
+      return;
+    }
+    // Hierarchical node support: if a node has a property 'subgraph', treat it as a graph-node
+    type NodeType = { id: string; x?: number; y?: number; fx?: number | null; fy?: number | null; subgraph?: any };
     type LinkType = { source: string; target: string };
-    const nodes: NodeType[] = Object.keys(adjGraph).map(id => ({ id }));
+    // Example: adjGraph = { A: [B], B: [C], G1: [A], G2: [], ... } and components[G1].subgraph = {...}
+    const nodes: NodeType[] = Object.keys(adjGraph).map(id => {
+      if (components[id] && components[id].subgraph) {
+        return { id, subgraph: components[id].subgraph };
+      }
+      return { id };
+    });
     const links: LinkType[] = Object.entries(adjGraph).flatMap(([source, targets]) =>
-      targets.map(target => ({ source, target }))
+      (Array.isArray(targets) ? targets : []).map((target: string) => ({ source, target }))
     );
 
-    const width = 400, height = 300;
+    const width = fullscreen ? window.innerWidth : 400;
+    const height = fullscreen ? window.innerHeight : 300;
     const svgEl = d3.select(graphRef.current)
       .attr("width", width)
       .attr("height", height)
-      .style("background", "#f8fafc");
+      .style("background", "#161e29");
 
     // Remove previous graph content
     svgEl.selectAll("g").remove();
     svgEl.selectAll("text").remove();
 
     const simulation = d3.forceSimulation<NodeType>(nodes)
-      .force("link", d3.forceLink<NodeType, LinkType>(links).id((d: NodeType) => d.id).distance(120))
+      .force("link", d3.forceLink<NodeType, LinkType>(links).id((d: NodeType) => d.id).distance(180))
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2));
+
+    // If fullscreen, move all nodes to center
+    if (fullscreen) {
+      simulation.force("center", null);
+      simulation.force("center", d3.forceCenter(width / 2, height / 2));
+      simulation.alpha(1).restart();
+    }
 
     const link = svgEl.append("g")
       .attr("stroke", "#888")
@@ -90,14 +96,54 @@ export default function Build() {
       .data(links)
       .enter().append("line");
 
-    const node = svgEl.append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 2)
-      .selectAll("circle")
+    // Draw nodes
+    const nodeGroup = svgEl.append("g");
+    const node = nodeGroup.selectAll("g.node")
       .data(nodes)
-      .enter().append("circle")
-      .attr("r", 24)
-      .attr("fill", "#054a22");
+      .enter().append("g")
+      .attr("class", "node");
+
+    // Draw main node circle
+    node.append("circle")
+      .attr("r", d => d.subgraph ? 60 : 40)
+      .attr("fill", d => d.subgraph ? "#242f40" : "#208a1a")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 1);
+
+    // If node is a graph-node, draw subnodes inside
+    node.filter(d => d.subgraph).each(function(d) {
+      const subgraph = d.subgraph;
+      const subnodes = Object.keys(subgraph).map(id => ({ id }));
+      // Arrange subnodes in a circle inside the parent
+      const r = 35;
+      subnodes.forEach((sub, i) => {
+        const angle = (2 * Math.PI * i) / subnodes.length;
+        d3.select(this).append("circle")
+          .attr("cx", r * Math.cos(angle))
+          .attr("cy", r * Math.sin(angle))
+          .attr("r", 20)
+          .attr("fill", "#208a1a")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1);
+        d3.select(this).append("text")
+          .attr("x", r * Math.cos(angle))
+          .attr("y", r * Math.sin(angle) + 4)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "0.5rem")
+          .attr("fill", "#fff")
+          .text(sub.id);
+      });
+    });
+
+    // Node labels
+    node.append("text")
+      .text((d: NodeType) => d.id)
+      .attr("text-anchor", "middle")
+      .attr("dy", d => d.subgraph ? -70 : 2)
+      .attr("font-size", "0.7rem")
+      .attr("fill", d => d.subgraph ? "#fff" : "#fff");
+
+    // Drag behavior
     (node as any).call(d3.drag()
       .on("start", function(event, d) {
         const node = d as NodeType;
@@ -118,16 +164,6 @@ export default function Build() {
       })
     );
 
-    const label = svgEl.append("g")
-      .selectAll("text")
-      .data(nodes)
-      .enter().append("text")
-      .text((d: NodeType) => d.id)
-      .attr("text-anchor", "middle")
-      .attr("dy", ".35em")
-      .attr("font-size", "0.5rem")
-      .attr("fill", "#fff");
-
     simulation.on("tick", () => {
       link
         .attr("x1", (d: any) => ((d.source as NodeType).x ?? 0))
@@ -135,73 +171,105 @@ export default function Build() {
         .attr("x2", (d: any) => ((d.target as NodeType).x ?? 0))
         .attr("y2", (d: any) => ((d.target as NodeType).y ?? 0));
       node
-        .attr("cx", (d: NodeType) => d.x ?? 0)
-        .attr("cy", (d: NodeType) => d.y ?? 0);
-      label
-        .attr("x", (d: NodeType) => d.x ?? 0)
-        .attr("y", (d: NodeType) => d.y ?? 0);
+        .attr("transform", (d: NodeType) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
-  }, [adjGraph]);
+  }, [adjGraph, components, fullscreen]);
   return (
     <main className="flex min-h-screen flex-col items-center font-mono bg-gray-200">
       <div className="flex min-h-screen flex-col items-center p-10 w-full md:w-1/2">
-        <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
-        <hr/>
+        <h1 className="text-6xl font-bold my-5 font-serif text-emerald-800">Wirehead</h1>
+        <img src="/logo.png" alt="Wirehead Logo" className="h-32 mb-5"/>
         <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-100">
           <span className="w-2 h-2 rounded-full mr-5 bg-emerald-800 animate-ping"></span>
-          <p className="uppercase tracking-widest font-mono text-emerald-800">status: reading datasheets...</p>
+          <p className="uppercase tracking-widest font-mono text-emerald-800">status: {buildStatus}</p>
         </div>
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Component Selection →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/component_selection.png" alt="Component Selection" className="h-15 mr-5 inline"/>
+          Component Selection →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="w-full">
-          {Object.entries(components).map(([key, comp]) => (
-            <div key={key} className="mb-8">
-              <div className="flex items-center mb-4">
-                <img src={comp.img} alt={comp.name} className="w-24 h-24 mr-4 rounded-lg border"/>
-                <div>
-                  <h3 className="text-xl font-bold">{comp.name}</h3>
-                  <p className="text-gray-600">{comp.description}</p>
+          {Object.entries(components).map(([key, compObj]) => {
+            const comp = compObj as {
+              img: string;
+              name: string;
+              description: string;
+              submodules?: Record<string, any>;
+            };
+            return (
+              <div key={key} className="mb-8">
+                <div className="flex items-center mb-4">
+                  <img src={comp.img} alt={comp.name} className="w-24 h-24 mr-4 rounded-lg border"/>
+                  <div>
+                    <h3 className="text-xl font-bold">{comp.name}</h3>
+                    <p className="text-gray-600">{comp.description}</p>
+                  </div>
                 </div>
+                {comp.submodules && (
+                  <div className="ml-8 border-l-2 border-gray-300 pl-4">
+                    {Object.entries(comp.submodules).map(([subKey, subCompObj]) => {
+                      const subComp = subCompObj as {
+                        img: string;
+                        name: string;
+                        description: string;
+                      };
+                      return (
+                        <div key={subKey} className="flex items-center mb-2">
+                          <img src={subComp.img} alt={subComp.name} className="w-12 h-12 mr-4 rounded-lg border"/>
+                          <div>
+                            <h5 className="font-bold">{subComp.name}</h5>
+                            <p className="text-gray-600">{subComp.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              {comp.submodules && (
-                <div className="ml-8 border-l-2 border-gray-300 pl-4">
-                  {Object.entries(comp.submodules).map(([subKey, subComp]) => (
-                    <div key={subKey} className="flex items-center mb-2">
-                      <img src={subComp.img} alt={subComp.name} className="w-12 h-12 mr-4 rounded-lg border"/>
-                      <div>
-                        <h5 className="font-bold">{subComp.name}</h5>
-                        <p className="text-gray-600">{subComp.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
         <hr/>
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Schematic Generation →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/netlist.png" alt="Netlist" className="h-15 mr-5 inline"/>
+          Schematic Generation →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
         <div className="my-8 w-full">
-          <h3 className="text-xl font-bold mb-2">Component Graph</h3>
-          <svg ref={graphRef} className="border rounded shadow w-full" />
-          <h3 className="text-xl font-bold my-4">Schematic</h3>
+          <div ref={graphContainerRef} className={fullscreen ? "fixed inset-0 p-5 bg-gray-200" : "relative"} style={fullscreen ? {width: "100vw", height: "100vh"} : {}}>
+            <div className="flex justify-between items-center w-full mb-2">
+              <h3 className="text-xl font-bold">Component Graph</h3>
+              <button
+                className={fullscreen ? "px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600" : "px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500"}
+                style={{zIndex: 60}}
+                onClick={() => {
+                  setFullscreen(f => !f);
+                }}
+              >
+                {fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              </button>
+            </div>
+            <svg ref={graphRef} className={fullscreen ? "border rounded shadow w-full h-[90vh] bg-gray-800" : "border rounded shadow w-full bg-gray-800"} />
+          </div>
         </div>
-        
-        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800">← Board Layout →</h2>
+        <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
+          <img src="/board.png" alt="Layout" className="h-15 mr-5 inline"/>
+          Board Layout →</h2>
         <hr className="border-[0.5px] border-emerald-800 mb-4 w-full"/>
-        <div className="my-8 w-full">
+        <h3 className="text-xl font-bold mb-2">Warning! The agent will briefly control the mouse and keyboard.</h3>
+        {/* <div className="my-8 w-full">
           <h3 className="text-xl font-bold mb-2">Component Layouts</h3>
           <div className="grid grid-cols-2 gap-4 w-full">
-            {Object.entries(componentLayouts).map(([compId, layout]) => (
-              <div key={compId} className="border rounded p-4 bg-white">
-                <h4 className="font-bold mb-2">{compId}</h4>
-                <img src={layout} alt={compId} className="w-full h-auto" />
-              </div>
-            ))}
+            {Object.entries(layouts).map(([compId, layoutObj]) => {
+              const layout = layoutObj as string;
+              return (
+                <div key={compId} className="border rounded p-4 bg-white">
+                  <h4 className="font-bold mb-2">{compId}</h4>
+                  <img src={layout} alt={compId} className="w-full h-auto" />
+                </div>
+              );
+            })}
           </div>
           <h3 className="text-xl font-bold my-4">Final PCB Layout</h3>
-        </div>
+        </div> */}
       </div>
     </main>
   );

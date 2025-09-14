@@ -22,7 +22,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center font-mono bg-gray-200">
       <div className="flex min-h-screen flex-col items-center p-24 w-full md:w-1/2">
         <h1 className="text-6xl font-bold my-5 font-serif">Wirehead</h1>
-        <p className="uppercase tracking-widest font-mono mb-5">ai for hardware.</p>
+        <p className="uppercase tracking-widest font-mono mb-5">prompt to hardware.</p>
+        <img src="/logo.png" alt="Wirehead Logo" className="h-32 mb-5"/>
         <div className="grid grid-cols-2 w-full gap-4">
           <div className="uppercase tracking-widest font-mono mb-5 text-center">
             <p>❶ list components.</p>
@@ -70,8 +71,9 @@ export default function Home() {
                   context: contextRef.current?.value || ""
                 }),
               }
-            );
-            window.location.href = "/build";
+            ).then(() => {
+              window.location.href = "/build";
+            });
           }
         }
         >

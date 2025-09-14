@@ -1,83 +1,39 @@
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
-WARNING: Merging two named nets (sense_resistor and bulk_capacitor_vm) into sense_resistor. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_19 and sense_resistor) into 2_device_pin_19. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_30 and reset_pull_up_resistor) into 2_device_pin_30. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_18 and 1_device_pin_10) into 2_device_pin_18. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_30 and 2_device_pin_18) into 2_device_pin_30. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_19 and 2_device_pin_30) into 2_device_pin_19. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_20 and 3_device_pin_5) into 2_device_pin_20. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (decoupling_capacitor_avdd and decoupling_capacitor_vcap1) into decoupling_capacitor_avdd. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_20 and decoupling_capacitor_avdd) into 2_device_pin_20. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (0_device_pin_18 and 0_device_pin_7) into 0_device_pin_18. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (decoupling_capacitor_vsp and flash_bypass_capacitor) into decoupling_capacitor_vsp. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (0_device_pin_18 and decoupling_capacitor_vsp) into 0_device_pin_18. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_20 and 0_device_pin_18) into 2_device_pin_20. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_19 and 2_device_pin_20) into 2_device_pin_19. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (bypass_capacitor_vm and decoupling_capacitor_vcap2) into bypass_capacitor_vm. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (digital_ground and bypass_capacitor_vm) into digital_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (vdd_decoupling_capacitor and 0_device_pin_2) into vdd_decoupling_capacitor. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (1_device_pin_1 and decoupling_capacitor_dvdd) into 1_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (vdd_decoupling_capacitor and 1_device_pin_1) into vdd_decoupling_capacitor. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (digital_ground and vdd_decoupling_capacitor) into digital_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (system_ground and microcontroller_ground) into system_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_1 and analog_ground) into 3_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (system_ground and 3_device_pin_1) into system_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_7 and 2_device_pin_28) into 3_device_pin_7. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_33 and 0_device_pin_33) into 2_device_pin_33. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_7 and 2_device_pin_33) into 3_device_pin_7. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (system_ground and 3_device_pin_7) into system_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (digital_ground and system_ground) into digital_ground. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_19 and digital_ground) into 2_device_pin_19. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (0_device_pin_5 and external_32k_crystal) into 0_device_pin_5. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (0_device_pin_4 and 0_device_pin_5) into 0_device_pin_4. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (external_load and current_sense_resistor) into external_load. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (1_device_pin_2 and external_load) into 1_device_pin_2. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (1_device_pin_6 and signal_source) into 1_device_pin_6. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (transconductance_setting and 1_device_pin_7) into transconductance_setting. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_24 and reference_capacitor_vrefp) into 2_device_pin_24. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (2_device_pin_25 and 2_device_pin_24) into 2_device_pin_25. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_2 and 3_device_pin_4) into 3_device_pin_2. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_3 and microcontroller) into 3_device_pin_3. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_2 and 3_device_pin_3) into 3_device_pin_2. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (motor and 3_device_pin_8) into motor. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Merging two named nets (3_device_pin_6 and motor) into 3_device_pin_6. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:184]
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag wJBHNTMVq0 generated for C.
-WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:112.
-WARNING: Random tag Ih3SCiEqSA generated for R.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag 4WSdy7KIYy generated for C.
-WARNING: Missing tag on ATmega8-16A instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:128.
-WARNING: Random tag ANq4iGyYv3 generated for ATmega8-16A.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag WKRY52bDis generated for C.
-WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:112.
-WARNING: Random tag CdOcjkim2K generated for R.
-WARNING: Missing tag on ATmega8-16A instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:128.
-WARNING: Random tag XOel8Aawfe generated for ATmega8-16A.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag sbY8N8J2dd generated for C.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag H3LYRu3B01 generated for C.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag qIcYxTOK73 generated for C.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag cZfjTp7aHo generated for C.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag tG0Y8onG39 generated for C.
-WARNING: Missing tag on ATmega8-16A instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:128.
-WARNING: Random tag wVmXnKifiB generated for ATmega8-16A.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag 1u8z_biofO generated for C.
-WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:109.
-WARNING: Random tag qDfM6ZxWRM generated for C.
-WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:112.
-WARNING: Random tag Ts1rWDLNog generated for R.
-WARNING: Missing tag on ATmega8-16A instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:128.
-WARNING: Random tag t8ZP_pZzex generated for ATmega8-16A.
+WARNING: Merging two named nets (0_device_pin_1 and 1_device_pin_4) into 0_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_5 and 0_device_pin_6) into 0_device_pin_5. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_31 and 1_device_pin_10) into 0_device_pin_31. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (2_device_pin_8 and 0_device_pin_12) into 2_device_pin_8. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_31 and 2_device_pin_8) into 0_device_pin_31. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (1_device_pin_1 and 0_device_pin_13) into 1_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag i9IBluairP generated for C.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag MgynZJVfel generated for C.
+WARNING: Missing tag on Crystal instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:171.
+WARNING: Random tag zo2et9pwiI generated for Crystal.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag t_Py5EKhTZ generated for C.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag wElLQQbmWq generated for C.
+WARNING: Missing tag on ATSAME70J21A-AN instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag US5kHJYAxg generated for ATSAME70J21A-AN.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag mEOT4yfHBC generated for C.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag ZjOPrDxk3T generated for R.
+WARNING: Missing tag on XTR111AxDGQ instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag f97qpQfj2r generated for XTR111AxDGQ.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag Om_yjRYNw9 generated for R.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag 2mgkbMndhu generated for R.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag 7mdd4wGtjQ generated for C.
+WARNING: Missing tag on AP33771 instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag gwFZoFwJen generated for AP33771.
 WARNING: Missing tag on  instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/<frozen importlib._bootstrap>:228.
-INFO: 80 warnings found while generating netlist.
+INFO: 36 warnings found while generating netlist.
 INFO: 0 errors found while generating netlist.
 

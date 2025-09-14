@@ -1,0 +1,861 @@
+(export 
+  (version "D")
+  (design
+    (source "server.py")
+    (date "09/14/2025 08:46 AM")
+    (tool "SKiDL (2.1.1)")
+    (sheet
+      (number 1)
+      (name "/")
+      (tstamps "/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "server.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value "")))))
+  (components
+    (comp
+      (ref "C1")
+      (value "0.1ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "diAyedtJfi")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "b5ebfeb7-8331-5d84-8b49-9ad02e58183f"))
+    (comp
+      (ref "C2")
+      (value "0.1ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "F9DhcaevwX")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "3f19608e-5b70-52c6-99ee-47ac12281837"))
+    (comp
+      (ref "C3")
+      (value "10 pF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "gwdjszg3ct")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "fff6d3b0-7bc2-575b-8e1c-abdf9a911588"))
+    (comp
+      (ref "C4")
+      (value "10 pF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "UDVRymDmj6")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "b2710dd4-704a-5713-a0dd-1aaf1bead467"))
+    (comp
+      (ref "C5")
+      (value "0.1ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "GM9fJOtpqx")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "2884de98-76f3-57d6-9920-18040d34f13d"))
+    (comp
+      (ref "C6")
+      (value "0.1ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "WBEqc9TpmS")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "cc878f94-60eb-56d3-ba54-36d89a8f7ae3"))
+    (comp
+      (ref "C7")
+      (value "22ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "veE2R_ZCkO")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "c6401f8c-2383-5e86-8940-507772c1cc7f"))
+    (comp
+      (ref "C8")
+      (value "22ÂµF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (fields
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "HswUQlGaKA")
+        (field
+          (name "SKiDL Line") "massive.py:132"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "88f10ea6-5d89-5025-9339-b7da95e71639"))
+    (comp
+      (ref "U1")
+      (value "STM32F030C8Tx")
+      (description "STMicroelectronics Arm Cortex-M0 MCU, 64KB flash, 8KB RAM, 48 MHz, 2.4-3.6V, 39 GPIO, LQFP48")
+      (footprint "Package_QFP:LQFP-48_7x7mm_P0.5mm")
+      (fields
+        (field
+          (name "Description") "STMicroelectronics Arm Cortex-M0 MCU, 64KB flash, 8KB RAM, 48 MHz, 2.4-3.6V, 39 GPIO, LQFP48")
+        (field
+          (name "Footprint") "Package_QFP:LQFP-48_7x7mm_P0.5mm")
+        (field
+          (name "Datasheet") "https://www.st.com/resource/en/datasheet/stm32f030c8.pdf")
+        (field
+          (name "SKiDL Tag") "DHirDcpy9F")
+        (field
+          (name "SKiDL Line") "massive.py:154"))
+      (libsource
+        (lib "MCU_ST_STM32F0")
+        (part "STM32F030C8Tx"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "582b7cbe-5cf2-57d5-92ac-f115ad416848"))
+    (comp
+      (ref "U2")
+      (value "DRV8838")
+      (description "H-Bridge driver, 1.8A, Low Voltage, PH/EN input, WSON-8")
+      (footprint "Package_SON:WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm")
+      (fields
+        (field
+          (name "Description") "H-Bridge driver, 1.8A, Low Voltage, PH/EN input, WSON-8")
+        (field
+          (name "Footprint") "Package_SON:WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm")
+        (field
+          (name "Datasheet") "http://www.ti.com/lit/ds/symlink/drv8837.pdf")
+        (field
+          (name "SKiDL Tag") "XC4i0Bncm6")
+        (field
+          (name "SKiDL Line") "massive.py:154"))
+      (libsource
+        (lib "Driver_Motor")
+        (part "DRV8838"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "21d0b607-971b-503f-a7c5-49ee7bd9a23c"))
+    (comp
+      (ref "U3")
+      (value "AMS1117")
+      (description "1A Low Dropout regulator, positive, adjustable output, SOT-223")
+      (footprint "Package_TO_SOT_SMD:SOT-223-3_TabPin2")
+      (fields
+        (field
+          (name "Description") "1A Low Dropout regulator, positive, adjustable output, SOT-223")
+        (field
+          (name "Footprint") "Package_TO_SOT_SMD:SOT-223-3_TabPin2")
+        (field
+          (name "Datasheet") "http://www.advanced-monolithic.com/pdf/ds1117.pdf")
+        (field
+          (name "SKiDL Tag") "JlNS0p76ec")
+        (field
+          (name "SKiDL Line") "massive.py:154"))
+      (libsource
+        (lib "Regulator_Linear")
+        (part "AMS1117"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "b24f6adb-617c-5bc0-9c55-dcdaf9d5b1fc"))
+    (comp
+      (ref "Y1")
+      (value "8 MHz")
+      (description "Two pin crystal")
+      (footprint "Crystal:Crystal_0603_1608Metric")
+      (fields
+        (field
+          (name "Description") "Two pin crystal")
+        (field
+          (name "Footprint") "Crystal:Crystal_0603_1608Metric")
+        (field
+          (name "Datasheet") "~")
+        (field
+          (name "SKiDL Tag") "LxjvE_Z01i")
+        (field
+          (name "SKiDL Line") "massive.py:138"))
+      (libsource
+        (lib "Device")
+        (part "Crystal"))
+      (sheetpath
+        (names "/")
+        (tstamps "/"))
+      (component_classes)
+      (tstamps "7a43b26b-eb9f-502c-b945-3a361ef211c2")))
+  (nets
+    (net
+      (code 1)
+      (name "0_device_pin_1")
+      (class "Default")
+      (node
+        (ref "C1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C6")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C6")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "1")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U2")
+        (pin "8")
+        (pintype "POWER-IN")))
+    (net
+      (code 2)
+      (name "0_device_pin_10")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "10")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 3)
+      (name "0_device_pin_11")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "11")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 4)
+      (name "0_device_pin_13")
+      (class "Default")
+      (node
+        (ref "C2")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C5")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C5")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "13")
+        (pintype "BIDIRECTIONAL"))
+      (node
+        (ref "U2")
+        (pin "1")
+        (pintype "POWER-IN")))
+    (net
+      (code 5)
+      (name "0_device_pin_14")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "14")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 6)
+      (name "0_device_pin_15")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "15")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 7)
+      (name "0_device_pin_16")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "16")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 8)
+      (name "0_device_pin_17")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "17")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 9)
+      (name "0_device_pin_18")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "18")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 10)
+      (name "0_device_pin_19")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "19")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 11)
+      (name "0_device_pin_2")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "2")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 12)
+      (name "0_device_pin_20")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "20")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 13)
+      (name "0_device_pin_21")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "21")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 14)
+      (name "0_device_pin_22")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "22")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 15)
+      (name "0_device_pin_23")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "23")
+        (pintype "POWER-IN")))
+    (net
+      (code 16)
+      (name "0_device_pin_24")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "24")
+        (pintype "POWER-IN")))
+    (net
+      (code 17)
+      (name "0_device_pin_25")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "25")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 18)
+      (name "0_device_pin_26")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "26")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 19)
+      (name "0_device_pin_27")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "27")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 20)
+      (name "0_device_pin_28")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "28")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 21)
+      (name "0_device_pin_29")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "29")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 22)
+      (name "0_device_pin_3")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "3")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 23)
+      (name "0_device_pin_30")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "30")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 24)
+      (name "0_device_pin_32")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "32")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 25)
+      (name "0_device_pin_33")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "33")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 26)
+      (name "0_device_pin_34")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "34")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 27)
+      (name "0_device_pin_35")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "35")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 28)
+      (name "0_device_pin_36")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "36")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 29)
+      (name "0_device_pin_37")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "37")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 30)
+      (name "0_device_pin_38")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "38")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 31)
+      (name "0_device_pin_39")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "39")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 32)
+      (name "0_device_pin_4")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "4")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 33)
+      (name "0_device_pin_40")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "40")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 34)
+      (name "0_device_pin_41")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "41")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 35)
+      (name "0_device_pin_42")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "42")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 36)
+      (name "0_device_pin_43")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "43")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 37)
+      (name "0_device_pin_44")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "44")
+        (pintype "INPUT")))
+    (net
+      (code 38)
+      (name "0_device_pin_45")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "45")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 39)
+      (name "0_device_pin_46")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "46")
+        (pintype "BIDIRECTIONAL")))
+    (net
+      (code 40)
+      (name "0_device_pin_47")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "47")
+        (pintype "PASSIVE")))
+    (net
+      (code 41)
+      (name "0_device_pin_48")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "48")
+        (pintype "POWER-IN")))
+    (net
+      (code 42)
+      (name "0_device_pin_5")
+      (class "Default")
+      (node
+        (ref "C3")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C3")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C4")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C4")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "5")
+        (pintype "BIDIRECTIONAL"))
+      (node
+        (ref "U1")
+        (pin "6")
+        (pintype "BIDIRECTIONAL"))
+      (node
+        (ref "Y1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "Y1")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 43)
+      (name "0_device_pin_7")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "7")
+        (pintype "INPUT")))
+    (net
+      (code 44)
+      (name "0_device_pin_8")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "8")
+        (pintype "POWER-IN")))
+    (net
+      (code 45)
+      (name "0_device_pin_9")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "9")
+        (pintype "POWER-IN")))
+    (net
+      (code 46)
+      (name "1_device_pin_2")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "2")
+        (pintype "OUTPUT")))
+    (net
+      (code 47)
+      (name "1_device_pin_3")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "3")
+        (pintype "OUTPUT")))
+    (net
+      (code 48)
+      (name "1_device_pin_5")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "5")
+        (pintype "INPUT")))
+    (net
+      (code 49)
+      (name "1_device_pin_6")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "6")
+        (pintype "INPUT")))
+    (net
+      (code 50)
+      (name "1_device_pin_7")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "7")
+        (pintype "INPUT")))
+    (net
+      (code 51)
+      (name "1_device_pin_9")
+      (class "Default")
+      (node
+        (ref "U2")
+        (pin "9")
+        (pintype "PASSIVE")))
+    (net
+      (code 52)
+      (name "2_device_pin_1")
+      (class "Default")
+      (node
+        (ref "U1")
+        (pin "12")
+        (pintype "BIDIRECTIONAL"))
+      (node
+        (ref "U1")
+        (pin "31")
+        (pintype "BIDIRECTIONAL"))
+      (node
+        (ref "U2")
+        (pin "4")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U3")
+        (pin "1")
+        (pintype "INPUT")))
+    (net
+      (code 53)
+      (name "2_device_pin_2")
+      (class "Default")
+      (node
+        (ref "C8")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C8")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "2")
+        (pintype "POWER-OUT")))
+    (net
+      (code 54)
+      (name "2_device_pin_3")
+      (class "Default")
+      (node
+        (ref "C7")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C7")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "3")
+        (pintype "POWER-IN")))))

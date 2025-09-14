@@ -5,7 +5,67 @@ import anthropic
 import json
 # import kinet2pcb
 
-n = 4
+
+import json
+from whoosh.fields import Schema, TEXT, ID
+from whoosh.index import create_in
+from whoosh.qparser import MultifieldParser
+import os
+
+SYMBOL_FILE = "symbols.json"
+with open(SYMBOL_FILE, 'r', encoding='utf-8') as f:
+    SYMBOL_DATA = json.load(f)
+
+# Create Whoosh schema
+schema = Schema(
+    name=ID(stored=True, unique=True),
+    description=TEXT(stored=True),
+    ki_keywords=TEXT(stored=True),
+    value=TEXT(stored=True),
+    footprint=TEXT(stored=True),
+)
+
+# Create index in memory (or temp dir)
+import tempfile
+index_dir = tempfile.mkdtemp()
+ix = create_in(index_dir, schema)
+
+# Add documents to index
+writer = ix.writer()
+for symbol in SYMBOL_DATA:
+    writer.add_document(
+        name=str(symbol["lib"] + ":" + symbol["properties"]["Value"]),
+        description=str(symbol["properties"].get("Description", "")),
+        ki_keywords=str(symbol["properties"].get("ki_keywords", "")),
+        value=str(symbol["properties"].get("Value", "")),
+        footprint=str(symbol["properties"].get("Footprint", "")),
+    )
+writer.commit()
+
+def search_symbols(query, limit=10):
+    """
+    Search for symbols matching the query in description, ki_keywords, or value fields.
+    Returns a list of matching symbol dicts.
+    """
+    with ix.searcher() as searcher:
+        parser = MultifieldParser(["description", "ki_keywords", "value"], schema=ix.schema)
+        q = parser.parse(query)
+        results = searcher.search(q, limit=limit)
+        matches = []
+        for hit in results:
+            # Find the original symbol dict by name
+            matches.append(hit.fields())
+        return matches
+
+# if __name__ == "__main__":
+#     while True:
+#         query = input("> ")
+#         results = search_symbols(query)
+#         print(f"Search results for '{query}':")
+#         for res in results:
+#             print(res)
+
+n = 3
 datas = []
 d2s = []
 for i in range(n):
@@ -80,8 +140,6 @@ for i in range(n):
     d2s[i] = d2s[i].replace("device_pin", str(i) + "_device_pin")
     d2s[i] = json.loads(d2s[i])
 
-print(datas)
-
 client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
 message = client.messages.create(
     model="claude-3-5-haiku-20241022",
@@ -98,8 +156,6 @@ nets = {}
 components = {}
 
 def gen(idx):
-    print("\n\n\n")
-    print(d2s[idx])
     aux_components = d2s[idx]["auxiliary_components"]
     connections = d2s[idx]["connections"]
     dev_pins = d2s[idx][str(idx) + "_device_pins"]
@@ -125,9 +181,14 @@ def gen(idx):
 
     # ===== Create Device Pins =====
     # We'll make a dummy IC for the main device
-    device = Part("MCU_Microchip_ATmega", "ATmega8-16A", footprint="Package_QFP:TQFP-32_7x7mm_P0.8mm")
+
+    names = ["ARM-based 32-bit MCU", "Voltage-to-Current", "USB Type-C"]
+
+    results = search_symbols(names[idx])
+    device = Part(results[0]["name"].split(":")[0], results[0]["name"].split(":")[1], footprint=results[0]["footprint"])
     components[str(idx) + "_main_device"] = device
-    for i in range(1, 33):
+    print(len(device))
+    for i in range(1, len(device) + 1):
         pin_name = str(idx) + "_device_pin_" + str(i)
         nets[pin_name] = Net(pin_name)
         device[i] += nets[pin_name]
@@ -145,7 +206,9 @@ def gen(idx):
                         conn_node = dev_pins[conn_node]
                     if conn_node not in nets:
                         nets[conn_node] = Net(conn_node)
-                    comp[pin_num] += nets[conn_node]
+                    if str(idx) + "_" + conn_node in components:
+                        comp[pin_num] += nets[conn_node]
+                        nets[node] += components[str(idx) + "_" + conn_node]
             # If the node is a device pin
             elif node.startswith(str(idx) + "_device_pin"):
                 pin_net = nets[node]
@@ -154,7 +217,8 @@ def gen(idx):
                         conn_node = dev_pins[conn_node]
                     if conn_node not in nets:
                         nets[conn_node] = Net(conn_node)
-                    pin_net += nets[conn_node]
+                    if str(idx) + "_" + conn_node in components:
+                        pin_net += components[str(idx) + "_" + conn_node]
             else:
                 # Possibly a net by itself
                 if node not in nets:
@@ -164,22 +228,27 @@ def gen(idx):
                         conn_node = dev_pins[conn_node]
                     if conn_node not in nets:
                         nets[conn_node] = Net(conn_node)
-                    nets[node] += nets[conn_node]
+                    if str(idx) + "_" + conn_node in components:
+                        nets[node] += components[str(idx) + "_" + conn_node]
 
 for i in range(n):
     gen(i)
 
-print(components)
-
 info = json.loads(message.content[0].text)["connections"]
+print(info)
 for n1, n2s in info.items():
     for n2 in n2s:
+        # print(n1)
         if n1 not in nets:
             nets[n1] = Net(n1)
         if n2 not in nets:
             nets[n2] = Net(n2)
-        nets[n1] += nets[n2]
+        print(n1.split("_")[0])
+        print(n1.split("_")[-1])
+        components[n1.split("_")[0] + "_main_device"][int(n1.split("_")[-1])] += nets[n2]
+        if n2 in components:
+            nets[n1] += components[n2]
         
 # ===== Generate Netlist =====
-# generate_netlist()
-generate_pcb()
+generate_netlist()
+# generate_pcb()

@@ -1,0 +1,50 @@
+{
+    "auxiliary_components": {
+        "decoupling_capacitor_vdd": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "decoupling_capacitor_vdda": {
+            "type": "capacitor", 
+            "value": "0.1µF"
+        },
+        "crystal": {
+            "type": "crystal",
+            "value": "8 MHz"
+        },
+        "crystal_capacitor_1": {
+            "type": "capacitor",
+            "value": "10 pF"
+        },
+        "crystal_capacitor_2": {
+            "type": "capacitor", 
+            "value": "10 pF"
+        }
+    },
+    "device_pins": {
+        "NRST": "device_pin_7",
+        "VDD": "device_pin_1",
+        "VDDA": "device_pin_13",
+        "VSS": "device_pin_31",
+        "VSSA": "device_pin_12",
+        "PF0/OSC_IN": "device_pin_5", 
+        "PF1/OSC_OUT": "device_pin_6"
+    },
+    "connections": {
+        "power_supply": {
+            "VDD": ["decoupling_capacitor_vdd"],
+            "decoupling_capacitor_vdd": ["VSS"],
+            "VDDA": ["decoupling_capacitor_vdda"],
+            "decoupling_capacitor_vdda": ["VSSA"]
+        },
+        "oscillator": {
+            "PF0/OSC_IN": ["crystal", "crystal_capacitor_1"],
+            "PF1/OSC_OUT": ["crystal", "crystal_capacitor_2"],
+            "crystal_capacitor_1": ["VSS"],
+            "crystal_capacitor_2": ["VSS"]
+        },
+        "reset": {
+            "NRST": ["device_pin_7"]
+        }
+    }
+}

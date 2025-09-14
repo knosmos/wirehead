@@ -1,0 +1,25 @@
+{
+    "auxiliary_components": {
+        "input_capacitor": {
+            "type": "capacitor", 
+            "value": "22µF"
+        },
+        "output_capacitor": {
+            "type": "capacitor", 
+            "value": "22µF"
+        }
+    },
+    "device_pins": {
+        "VIN": "device_pin_3", 
+        "VOUT": "device_pin_2",
+        "GND": "device_pin_1"
+    },
+    "connections": {
+        "power_supply": {
+            "VIN": ["input_capacitor"],
+            "input_capacitor": ["VIN", "GND"],
+            "VOUT": ["output_capacitor"],
+            "output_capacitor": ["VOUT", "GND"]
+        }
+    }
+}

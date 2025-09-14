@@ -1,0 +1,66 @@
+{
+    "auxiliary_components": {
+        "bulk_capacitor_vm": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "charge_pump_capacitor_cph_cpl": {
+            "type": "capacitor", 
+            "value": "22nF"
+        },
+        "charge_pump_capacitor_vcp": {
+            "type": "capacitor",
+            "value": "100nF"
+        },
+        "current_sense_resistor": {
+            "type": "resistor",
+            "value": "5.5kΩ"
+        }
+    },
+    "device_pins": {
+        "EN/IN1": "device_pin_1", 
+        "PH/IN2": "device_pin_2",
+        "nSLEEP": "device_pin_3", 
+        "nFAULT": "device_pin_4",
+        "VREF": "device_pin_5",
+        "IPROPI": "device_pin_6",
+        "IMODE": "device_pin_7",
+        "OUT1": "device_pin_8",
+        "PMODE": "device_pin_16",
+        "CPL": "device_pin_14", 
+        "CPH": "device_pin_13",
+        "VCP": "device_pin_12", 
+        "VM": "device_pin_11",
+        "OUT2": "device_pin_10",
+        "PGND": "device_pin_9"
+    },
+    "connections": {
+        "power_supply": {
+            "VM": ["bulk_capacitor_vm", "device_pin_11"],
+            "bulk_capacitor_vm": ["VM", "PGND"],
+            "VCP": ["charge_pump_capacitor_vcp", "device_pin_12"],
+            "charge_pump_capacitor_vcp": ["VCP", "VM"],
+            "CPH": ["charge_pump_capacitor_cph_cpl", "device_pin_13"],
+            "CPL": ["charge_pump_capacitor_cph_cpl", "device_pin_14"],
+            "VREF": ["current_sense_resistor", "device_pin_5"]
+        },
+        "motor_control": {
+            "OUT1": ["motor_output", "device_pin_8"],
+            "OUT2": ["motor_output", "device_pin_10"],
+            "EN/IN1": ["control_input", "device_pin_1"],
+            "PH/IN2": ["control_input", "device_pin_2"]
+        },
+        "current_sensing": {
+            "IPROPI": ["current_sense_output", "current_sense_resistor", "device_pin_6"],
+            "current_sense_resistor": ["IPROPI", "VREF"]
+        },
+        "mode_control": {
+            "nSLEEP": ["sleep_control", "device_pin_3"],
+            "PMODE": ["control_mode", "device_pin_16"],
+            "IMODE": ["current_regulation_mode", "device_pin_7"]
+        },
+        "fault_indication": {
+            "nFAULT": ["fault_output", "device_pin_4"]
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "auxiliary_components": {
+        "decoupling_capacitor_vdd": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "crystal": {
+            "type": "crystal", 
+            "value": "40 MHz"
+        },
+        "antenna_matching_capacitor_1": {
+            "type": "capacitor",
+            "value": "TBD"
+        },
+        "antenna_matching_capacitor_2": {
+            "type": "capacitor", 
+            "value": "TBD"
+        },
+        "antenna_matching_inductor": {
+            "type": "inductor",
+            "value": "TBD"
+        }
+    },
+    "device_pins": {
+        "VDD": "device_pin_3",
+        "GND": "device_pin_1",
+        "EN": "device_pin_8",
+        "CLK": "device_pin_30",
+        "CMD": "device_pin_29",
+        "LNA_IN": "device_pin_2",
+        "RF_ANT": "device_pin_external"
+    },
+    "connections": {
+        "power_supply": {
+            "VDD": ["decoupling_capacitor_vdd"],
+            "decoupling_capacitor_vdd": ["GND"],
+            "EN": ["device_pin_8"]
+        },
+        "clock": {
+            "CLK": ["crystal"],
+            "crystal": ["GND"]
+        },
+        "rf_interface": {
+            "LNA_IN": ["antenna_matching_capacitor_1", "antenna_matching_inductor"],
+            "RF_ANT": ["antenna_matching_capacitor_2", "antenna_matching_inductor"],
+            "antenna_matching_capacitor_1": ["GND"],
+            "antenna_matching_capacitor_2": ["GND"]
+        },
+        "flash_interface": {
+            "CLK": ["device_pin_30"],
+            "CMD": ["device_pin_29"]
+        },
+        "ground_connections": {
+            "GND": ["device_pin_1", "device_pin_11", "device_pin_14", "device_pin_36", "device_pin_37", "device_pin_38", "device_pin_39", "device_pin_40", "device_pin_41", "device_pin_42", "device_pin_43", "device_pin_44", "device_pin_45", "device_pin_46", "device_pin_47", "device_pin_48", "device_pin_49", "device_pin_50", "device_pin_51", "device_pin_52", "device_pin_53"]
+        }
+    }
+}
