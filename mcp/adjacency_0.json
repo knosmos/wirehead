@@ -1,0 +1,41 @@
+{
+    "auxiliary_components": {
+        "vdd_decoupling_capacitor": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "reset_pull_up_resistor": {
+            "type": "resistor", 
+            "value": "10kΩ"
+        },
+        "flash_bypass_capacitor": {
+            "type": "capacitor",
+            "value": "10µF"
+        }
+    },
+    "device_pins": {
+        "VDD3P3": "device_pin_2",
+        "CHIP_EN": "device_pin_7",
+        "GND": "device_pin_33",
+        "XTAL_32K_P": "device_pin_4",
+        "XTAL_32K_N": "device_pin_5",
+        "VDD_SPI": "device_pin_18"
+    },
+    "connections": {
+        "power_supply": {
+            "VDD3P3": ["vdd_decoupling_capacitor"],
+            "vdd_decoupling_capacitor": ["GND"],
+            "VDD_SPI": ["flash_bypass_capacitor"],
+            "flash_bypass_capacitor": ["GND"]
+        },
+        "reset_control": {
+            "CHIP_EN": ["reset_pull_up_resistor"],
+            "reset_pull_up_resistor": ["VDD3P3"]
+        },
+        "clock_inputs": {
+            "XTAL_32K_P": ["external_32k_crystal"],
+            "XTAL_32K_N": ["external_32k_crystal"],
+            "external_32k_crystal": ["XTAL_32K_P", "XTAL_32K_N"]
+        }
+    }
+}

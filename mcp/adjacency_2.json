@@ -1,0 +1,54 @@
+{
+    "auxiliary_components": {
+        "decoupling_capacitor_avdd": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "decoupling_capacitor_dvdd": {
+            "type": "capacitor", 
+            "value": "0.1µF"
+        },
+        "decoupling_capacitor_vcap1": {
+            "type": "capacitor",
+            "value": "1µF"
+        },
+        "decoupling_capacitor_vcap2": {
+            "type": "capacitor",
+            "value": "0.1µF"
+        },
+        "reference_capacitor_vrefp": {
+            "type": "capacitor", 
+            "value": "10µF"
+        }
+    },
+    "device_pins": {
+        "AVDD": "device_pin_19",
+        "AVSS": "device_pin_20",
+        "DVDD": "device_pin_18",
+        "DGND": "device_pin_33",
+        "VREFP": "device_pin_24",
+        "VREFN": "device_pin_25",
+        "VCAP1": "device_pin_28",
+        "VCAP2": "device_pin_30"
+    },
+    "connections": {
+        "power_supply": {
+            "AVDD": ["decoupling_capacitor_avdd"],
+            "decoupling_capacitor_avdd": ["AVSS"],
+            "DVDD": ["decoupling_capacitor_dvdd"],
+            "decoupling_capacitor_dvdd": ["DGND"],
+            "VCAP1": ["decoupling_capacitor_vcap1"],
+            "decoupling_capacitor_vcap1": ["AVSS"],
+            "VCAP2": ["decoupling_capacitor_vcap2"],
+            "decoupling_capacitor_vcap2": ["AVSS"]
+        },
+        "reference_connections": {
+            "VREFP": ["reference_capacitor_vrefp"],
+            "reference_capacitor_vrefp": ["VREFN"]
+        },
+        "ground_connections": {
+            "AVSS": ["analog_ground"],
+            "DGND": ["digital_ground"]
+        }
+    }
+}
