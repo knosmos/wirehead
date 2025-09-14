@@ -1,0 +1,39 @@
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: Merging two named nets (0_device_pin_1 and 1_device_pin_4) into 0_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_5 and 0_device_pin_6) into 0_device_pin_5. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_31 and 1_device_pin_10) into 0_device_pin_31. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (2_device_pin_8 and 0_device_pin_12) into 2_device_pin_8. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (0_device_pin_31 and 2_device_pin_8) into 0_device_pin_31. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Merging two named nets (1_device_pin_1 and 0_device_pin_13) into 1_device_pin_1. @ [/Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:253]
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag i9IBluairP generated for C.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag MgynZJVfel generated for C.
+WARNING: Missing tag on Crystal instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:171.
+WARNING: Random tag zo2et9pwiI generated for Crystal.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag t_Py5EKhTZ generated for C.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag wElLQQbmWq generated for C.
+WARNING: Missing tag on ATSAME70J21A-AN instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag US5kHJYAxg generated for ATSAME70J21A-AN.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag mEOT4yfHBC generated for C.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag ZjOPrDxk3T generated for R.
+WARNING: Missing tag on XTR111AxDGQ instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag f97qpQfj2r generated for XTR111AxDGQ.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag Om_yjRYNw9 generated for R.
+WARNING: Missing tag on R instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:168.
+WARNING: Random tag 2mgkbMndhu generated for R.
+WARNING: Missing tag on C instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:165.
+WARNING: Random tag 7mdd4wGtjQ generated for C.
+WARNING: Missing tag on AP33771 instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/massive.py:188.
+WARNING: Random tag gwFZoFwJen generated for AP33771.
+WARNING: Missing tag on  instantiated at /Users/null_awe/Documents/mit/hack25/hackmit25/mcp/<frozen importlib._bootstrap>:228.
+INFO: 36 warnings found while generating netlist.
+INFO: 0 errors found while generating netlist.
+
