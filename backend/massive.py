@@ -11,6 +11,9 @@ from whoosh.fields import Schema, TEXT, ID
 from whoosh.index import create_in
 from whoosh.qparser import MultifieldParser, FuzzyTermPlugin
 import os
+import requests
+
+url = "https://api.tandemn.com/api/v1/chat/completions"
 
 SYMBOL_FILE = "symbols.json"
 with open(SYMBOL_FILE, 'r', encoding='utf-8') as f:
@@ -220,38 +223,54 @@ def run(BUILD_STATE, n, names):
         # d2s[i] = "{\"device_pins\": " + d2s[i] + "}"
         d2s[i] = d2s[i].replace("device_pin", str(i) + "_device_pin")
         d2s[i] = json.loads(d2s[i])
+    
+    try:
+        client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
+        message = client.messages.create(
+            model="claude-3-5-haiku-20241022",
+            max_tokens=1024,
+            messages = [
+                {"role": "user", "content": [
+                    {"type": "text", "text": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
+                    "\n\n".join(datas)}]}]
+        )
+        for i in range(n):
+            gen(i, names)
+            BUILD_STATE["status"] = f"wiring auxiliary parts for component {i+1}/{n}"
+            yield BUILD_STATE, False
 
-    client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
-    message = client.messages.create(
-        model="claude-3-5-haiku-20241022",
-        max_tokens=1024,
-        messages = [
-            {"role": "user", "content": [
-                {"type": "text", "text": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
-                "\n\n".join(datas)}]}]
-    )
-    for i in range(n):
-        gen(i, names)
-        BUILD_STATE["status"] = f"wiring auxiliary parts for component {i+1}/{n}"
+        BUILD_STATE["status"] = "wiring major components..."
         yield BUILD_STATE, False
+        info = json.loads(message.content[0].text)["connections"]
+        print(info)
 
-    BUILD_STATE["status"] = "wiring major components..."
-    yield BUILD_STATE, False
-    info = json.loads(message.content[0].text)["connections"]
-    print(info)
-
-    # remap this to create an adjacency list
-    readable_adj = {
-        name: [] for name in names if name.strip() != ""
-    }
-    for node_idx, neighbors in info.items():
-        node_name = names[int(node_idx.split("_")[0])]
-        if node_name not in readable_adj:
-            readable_adj[node_name] = []
-        for neighbor in neighbors:
-            neighbor_name = names[int(neighbor.split("_")[0])]
-            readable_adj[node_name].append(neighbor_name)
-    BUILD_STATE["adjGraph"] = readable_adj
+        # remap this to create an adjacency list
+        readable_adj = {
+            name: [] for name in names if name.strip() != ""
+        }
+        for node_idx, neighbors in info.items():
+            node_name = names[int(node_idx.split("_")[0])]
+            if node_name not in readable_adj:
+                readable_adj[node_name] = []
+            for neighbor in neighbors:
+                neighbor_name = names[int(neighbor.split("_")[0])]
+                readable_adj[node_name].append(neighbor_name)
+        BUILD_STATE["adjGraph"] = readable_adj
+    except:
+        headers = {
+            "Authorization": f"Bearer gk-iUzbF2OP_7oug91ht53",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": "casperhansen/deepseek-r1-distill-llama-70b-awq",
+            "messages": [
+                {"role": "user", "content": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
+                    "\n\n".join(datas)}
+            ]
+        }
+        response = requests.post(url, headers=headers, json=data)
+        print(response.json())
+        info = response.json()["connections"]
 
     for n1, n2s in info.items():
         for n2 in n2s:
