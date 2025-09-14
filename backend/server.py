@@ -20,6 +20,9 @@ HEADERS = {
 
 AI_URL = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8888/parse")
 
+for chunk in stream:
+  print(chunk.choices[0].delta.content or "", end="")
+
 COMPONENTS = []
 CONTEXT = ""
 # BUILD_STATE = {

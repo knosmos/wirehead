@@ -13,6 +13,13 @@ import anthropic
 CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
 API_URL = "https://api.anthropic.com/v1/messages"
 
+from cerebras.cloud.sdk import Cerebras
+
+client = Cerebras(
+    # This is the default and can be omitted
+    api_key="csk-35nv5wtfkhk65yr5d6y2p2jhhre4e36x2p22cjynf2rwwc6x"
+)
+
 if not CLAUDE_API_KEY:
     raise RuntimeError("CLAUDE_API_KEY environment variable is not set!")
 
@@ -121,28 +128,48 @@ def parse_datasheet_with_llm(pdf_url, part_name):
     # with open("./mcp/datasheet.pdf", "rb") as f:
     #     pdf_bytes = f.read()
     # pdf_b64 = base64.b64encode(pdf_bytes).decode("utf-8")
-    client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
-    message = client.messages.create(
-        model="claude-3-5-haiku-20241022",
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {"type": "document", "source": {"type": "url", "url": pdf_url}},
-                    # {
-                    #     "type": "document",
-                    #     "source": {
-                    #         "type": "base64",
-                    #         "media_type": "application/pdf",
-                    #         "data": pdf_b64
-                    #     }
-                    # },
-                    {"type": "text", "text": SYSTEM_PROMPT + "\n\n" + part_name},
-                ],
-            }
-        ],
-    )
+    try:
+        client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
+        message = client.messages.create(
+                model="claude-3-5-haiku-20241022",
+                max_tokens=1024,
+                messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "document", "source": {"type": "url", "url": pdf_url}},
+                        # {
+                        #     "type": "document",
+                        #     "source": {
+                        #         "type": "base64",
+                        #         "media_type": "application/pdf",
+                        #         "data": pdf_b64
+                        #     }
+                        # },
+                        {"type": "text", "text": SYSTEM_PROMPT + "\n\n" + part_name},
+                    ],
+                }
+            ],
+        )
+    except Exception as e:
+        stream = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": "Read this pdf at " + pdf_url + " and return the JSON adjacency list. The part name is " + part_name
+                }
+            ],
+            model="qwen-3-235b-a22b-instruct-2507",
+            stream=True,
+            max_completion_tokens=20000,
+            temperature=0.7,
+            top_p=0.8
+        )
+        return stream
     # resp = requests.post(API_URL, headers=headers, json=payload, timeout=300)
     # resp.raise_for_status()
     return message.content[0].text
