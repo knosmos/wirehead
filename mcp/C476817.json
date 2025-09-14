@@ -25,7 +25,7 @@
         "AVDD": "device_pin_19",
         "AVSS": "device_pin_20",
         "DVDD": "device_pin_18",
-        "DGND": "device_pin_33",
+        "DGND": "device_pin_32",
         "VREFP": "device_pin_24",
         "VREFN": "device_pin_25",
         "VCAP1": "device_pin_28",

@@ -93,9 +93,11 @@ SYSTEM_PROMPT = (
         - crystal
         - inductor
         - diode
+    * Make sure all of these components, if used in the edges, are also present in the auxiliary components.
     * ***CRITICAL*** DO NOT MISS THIS STEP! Define what "device_pin_i" is for all nodes that are not auxiliary components in connections.
         - !IMPORTANT! Do not define it as "pin_1", define it as "device_pin_1".
     * Make sure the "device_pin_i" is consistent and a valid pin number for the central device.
+    * Make sure your pin numbers range ONLY from **1-32**, inclusive.
 
     IMPORTANT: Do **not** include any explanations, reasoning, or extra text.  
     Output **only** a valid JSON adjacency list exactly as shown in the example.  

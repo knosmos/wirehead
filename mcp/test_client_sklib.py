@@ -5,7 +5,7 @@ from skidl.pin import pin_types
 
 SKIDL_lib_version = '0.0.1'
 
-massive = SchLib(tool=SKIDL).add_parts(*[
+test_client = SchLib(tool=SKIDL).add_parts(*[
         Part(**{ 'name':'C', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'C'}), 'ref_prefix':'C', 'fplist':[''], 'footprint':'Capacitor_SMD:C_0603_1608Metric', 'keywords':'cap capacitor', 'description':'Unpolarized capacitor', 'datasheet':'~', 'pins':[
             Pin(num='1',name='~',func=pin_types.PASSIVE,unit=1),
             Pin(num='2',name='~',func=pin_types.PASSIVE,unit=1)], 'unit_defs':[] }),
