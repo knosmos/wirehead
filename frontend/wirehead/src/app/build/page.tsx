@@ -29,8 +29,8 @@ export default function Home() {
             console.log(JSON.stringify(data.adjGraph), JSON.stringify(adjGraph));
             setAdjGraph(data.adjGraph);
           }
-          setBuildStatus(data.buildStatus || "");
-          setPcbLayout(data.layouts || null);
+          setBuildStatus(data.status || "");
+          setPcbLayout(data.layouts || {});
           setFinalPcbLayout(data.fullLayout || null);
           setSchematic(data.schematic || null);
           setSolverStatus(data.solverStatus || "");
@@ -47,6 +47,11 @@ export default function Home() {
   const graphContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!graphRef.current) return;
+    if (!adjGraph || Object.keys(adjGraph).length === 0) {
+      d3.select(graphRef.current).selectAll("*").remove();
+      return;
+    }
     // Hierarchical node support: if a node has a property 'subgraph', treat it as a graph-node
     type NodeType = { id: string; x?: number; y?: number; fx?: number | null; fy?: number | null; subgraph?: any };
     type LinkType = { source: string; target: string };
@@ -176,7 +181,7 @@ export default function Home() {
         <img src="/logo.png" alt="Wirehead Logo" className="h-32 mb-5"/>
         <div className="flex items-center border border-emerald-800 rounded-full px-4 py-2 mb-5 bg-green-100">
           <span className="w-2 h-2 rounded-full mr-5 bg-emerald-800 animate-ping"></span>
-          <p className="uppercase tracking-widest font-mono text-emerald-800">status: reading datasheets...</p>
+          <p className="uppercase tracking-widest font-mono text-emerald-800">status: {buildStatus}</p>
         </div>
         <h2 className="text-2xl font-bold my-5 uppercase tracking-widest text-emerald-800 w-full">
           <img src="/component_selection.png" alt="Component Selection" className="h-15 mr-5 inline"/>

@@ -71,8 +71,9 @@ export default function Home() {
                   context: contextRef.current?.value || ""
                 }),
               }
-            );
-            window.location.href = "/build";
+            ).then(() => {
+              window.location.href = "/build";
+            });
           }
         }
         >

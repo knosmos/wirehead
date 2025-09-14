@@ -1,0 +1,42 @@
+{
+    "auxiliary_components": {
+        "crystal": {
+            "type": "crystal",
+            "value": "16MHz"
+        },
+        "decoupling_capacitor_1": {
+            "type": "capacitor", 
+            "value": "0.1µF"
+        },
+        "decoupling_capacitor_2": {
+            "type": "capacitor", 
+            "value": "0.1µF"
+        },
+        "reset_pullup_resistor": {
+            "type": "resistor",
+            "value": "10kΩ"
+        }
+    },
+    "device_pins": {
+        "VCC": "device_pin_4",
+        "GND": "device_pin_5",
+        "RESET": "device_pin_29", 
+        "XTAL1": "device_pin_7",
+        "XTAL2": "device_pin_8"
+    },
+    "connections": {
+        "power_supply": {
+            "VCC": ["decoupling_capacitor_1", "decoupling_capacitor_2"],
+            "decoupling_capacitor_1": ["GND"],
+            "decoupling_capacitor_2": ["GND"]
+        },
+        "reset_circuit": {
+            "RESET": ["reset_pullup_resistor", "VCC"],
+            "reset_pullup_resistor": ["VCC"]
+        },
+        "clock_circuit": {
+            "XTAL1": ["crystal"],
+            "XTAL2": ["crystal"]
+        }
+    }
+}

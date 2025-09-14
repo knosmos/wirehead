@@ -17,8 +17,7 @@ if not CLAUDE_API_KEY:
     raise RuntimeError("CLAUDE_API_KEY environment variable is not set!")
 
 # ===== PROMPT TEMPLATE =====
-SYSTEM_PROMPT = (
-    """
+SYSTEM_PROMPT = """
     You are an expert electrical engineer AI with specific expertise in PCB components. You will be given:
 
     1. **A PCB component name** (e.g., "ATmega328P", "LM7805").
@@ -103,7 +102,7 @@ SYSTEM_PROMPT = (
     Output **only** a valid JSON adjacency list exactly as shown in the example.  
     The JSON must be parseable; do not include comments, markdown, or extra formatting.
     """
-)
+
 
 # ===== CORE CLAUDE CALL =====
 def parse_datasheet_with_llm(pdf_url, part_name):
@@ -118,6 +117,7 @@ def parse_datasheet_with_llm(pdf_url, part_name):
     #     "messages": messages
     # }
     import base64
+
     # with open("./mcp/datasheet.pdf", "rb") as f:
     #     pdf_bytes = f.read()
     # pdf_b64 = base64.b64encode(pdf_bytes).decode("utf-8")
@@ -125,24 +125,23 @@ def parse_datasheet_with_llm(pdf_url, part_name):
     message = client.messages.create(
         model="claude-3-5-haiku-20241022",
         max_tokens=1024,
-        messages = [
-            {"role": "user", "content": [
-                {
-                    "type": "document",
-                    "source": {
-                        "type": "url",
-                        "url": pdf_url
-                    }
-                },
-                # {
-                #     "type": "document",
-                #     "source": {
-                #         "type": "base64",
-                #         "media_type": "application/pdf",
-                #         "data": pdf_b64
-                #     }
-                # },
-                {"type": "text", "text": SYSTEM_PROMPT + "\n\n" + part_name}]}]
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "document", "source": {"type": "url", "url": pdf_url}},
+                    # {
+                    #     "type": "document",
+                    #     "source": {
+                    #         "type": "base64",
+                    #         "media_type": "application/pdf",
+                    #         "data": pdf_b64
+                    #     }
+                    # },
+                    {"type": "text", "text": SYSTEM_PROMPT + "\n\n" + part_name},
+                ],
+            }
+        ],
     )
     # resp = requests.post(API_URL, headers=headers, json=payload, timeout=300)
     # resp.raise_for_status()

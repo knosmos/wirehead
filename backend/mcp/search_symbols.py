@@ -1,4 +1,3 @@
-
 import json
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.index import create_in
@@ -6,7 +5,7 @@ from whoosh.qparser import MultifieldParser
 import os
 
 SYMBOL_FILE = "symbols.json"
-with open(SYMBOL_FILE, 'r', encoding='utf-8') as f:
+with open(SYMBOL_FILE, "r", encoding="utf-8") as f:
     SYMBOL_DATA = json.load(f)
 
 # Create Whoosh schema
@@ -20,6 +19,7 @@ schema = Schema(
 
 # Create index in memory (or temp dir)
 import tempfile
+
 index_dir = tempfile.mkdtemp()
 ix = create_in(index_dir, schema)
 
@@ -35,13 +35,16 @@ for symbol in SYMBOL_DATA:
     )
 writer.commit()
 
+
 def search_symbols(query, limit=10):
     """
     Search for symbols matching the query in description, ki_keywords, or value fields.
     Returns a list of matching symbol dicts.
     """
     with ix.searcher() as searcher:
-        parser = MultifieldParser(["description", "ki_keywords", "value"], schema=ix.schema)
+        parser = MultifieldParser(
+            ["description", "ki_keywords", "value"], schema=ix.schema
+        )
         q = parser.parse(query)
         results = searcher.search(q, limit=limit)
         matches = []
@@ -49,6 +52,7 @@ def search_symbols(query, limit=10):
             # Find the original symbol dict by name
             matches.append(hit.fields())
         return matches
+
 
 if __name__ == "__main__":
     while True:

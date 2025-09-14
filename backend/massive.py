@@ -9,7 +9,7 @@ import json
 import json
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.index import create_in
-from whoosh.qparser import MultifieldParser
+from whoosh.qparser import MultifieldParser, FuzzyTermPlugin
 import os
 
 SYMBOL_FILE = "symbols.json"
@@ -49,30 +49,14 @@ def search_symbols(query, limit=10):
     """
     with ix.searcher() as searcher:
         parser = MultifieldParser(["description", "ki_keywords", "value"], schema=ix.schema)
-        q = parser.parse(query)
+        parser.add_plugin(FuzzyTermPlugin())
+        q = parser.parse(query + "~4")
         results = searcher.search(q, limit=limit)
         matches = []
         for hit in results:
             # Find the original symbol dict by name
             matches.append(hit.fields())
         return matches
-
-# if __name__ == "__main__":
-#     while True:
-#         query = input("> ")
-#         results = search_symbols(query)
-#         print(f"Search results for '{query}':")
-#         for res in results:
-#             print(res)
-
-n = 3
-datas = []
-d2s = []
-for i in range(n):
-    with open("adjacency_" + str(i) + ".json", "r") as f:
-        datas.append(json.load(f))
-        d2s.append(datas[-1])
-        datas[-1] = datas[-1]["device_pins"]
 
 CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
 API_URL = "https://api.anthropic.com/v1/messages"
@@ -131,38 +115,20 @@ SYSTEM_PROMPT = (
     """
 )
 
-for i in range(n):
-    datas[i] = json.dumps(datas[i])
-    datas[i] = "device_pins: " + datas[i]
-    datas[i] = datas[i].replace("device_pin", str(i) + "_device_pin")
-    d2s[i] = json.dumps(d2s[i])
-    # d2s[i] = "{\"device_pins\": " + d2s[i] + "}"
-    d2s[i] = d2s[i].replace("device_pin", str(i) + "_device_pin")
-    d2s[i] = json.loads(d2s[i])
-
-client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
-message = client.messages.create(
-    model="claude-3-5-haiku-20241022",
-    max_tokens=1024,
-    messages = [
-        {"role": "user", "content": [
-            {"type": "text", "text": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
-            "\n\n".join(datas)}]}]
-)
 # # resp = requests.post(API_URL, headers=headers, json=payload, timeout=300)
 # # resp.raise_for_status()
 
 nets = {}
 components = {}
 
-def gen(idx):
+def gen(idx, names):
     aux_components = d2s[idx]["auxiliary_components"]
     connections = d2s[idx]["connections"]
     dev_pins = d2s[idx][str(idx) + "_device_pins"]
 
     for name, comp in aux_components.items():
         if comp["type"] == "capacitor":
-            c = Part("Device", "C", value=comp["value"], footprint="Capacitor_SMD:C_0603_1608Metric")
+            c = Part("Device", "C", value=comp["value"], footprint="Capacitor_SMD:C_0805_2012Metric")
             components[str(idx) + "_" + name] = c
         elif comp["type"] == "resistor":
             r = Part("Device", "R", value=comp["value"], footprint="Resistor_SMD:R_0603_1608Metric")
@@ -174,17 +140,15 @@ def gen(idx):
             c = Part("Device", "L", value=comp["value"], footprint="Inductor_SMD:L_0603_1608Metric")
             components[str(idx) + "_" + name] = c
         elif comp["type"] == "diode":
-            c = Part("Device", "D", value=comp["value"], footprint="Diode_SMD:D_0603_1608Metric")
+            c = Part("Device", "D", value=comp["value"], footprint="Diode_SMD:D_SOD-523")
             components[str(idx) + "_" + name] = c
         else:
             raise ValueError(f"Unsupported component type: {comp['type']}")
 
     # ===== Create Device Pins =====
     # We'll make a dummy IC for the main device
-
-    names = ["ARM-based 32-bit MCU", "Voltage-to-Current", "USB Type-C"]
-
-    results = search_symbols(names[idx])
+    print(names[idx].split()[-1])
+    results = search_symbols(names[idx].split()[-1])
     device = Part(results[0]["name"].split(":")[0], results[0]["name"].split(":")[1], footprint=results[0]["footprint"])
     components[str(idx) + "_main_device"] = device
     print(len(device))
@@ -211,6 +175,8 @@ def gen(idx):
                         nets[node] += components[str(idx) + "_" + conn_node]
             # If the node is a device pin
             elif node.startswith(str(idx) + "_device_pin"):
+                if node not in nets:
+                    continue
                 pin_net = nets[node]
                 for conn_node in connected_nodes:
                     if conn_node in dev_pins:
@@ -231,24 +197,76 @@ def gen(idx):
                     if str(idx) + "_" + conn_node in components:
                         nets[node] += components[str(idx) + "_" + conn_node]
 
-for i in range(n):
-    gen(i)
+datas = []
+d2s = []
 
-info = json.loads(message.content[0].text)["connections"]
-print(info)
-for n1, n2s in info.items():
-    for n2 in n2s:
-        # print(n1)
-        if n1 not in nets:
-            nets[n1] = Net(n1)
-        if n2 not in nets:
-            nets[n2] = Net(n2)
-        print(n1.split("_")[0])
-        print(n1.split("_")[-1])
-        components[n1.split("_")[0] + "_main_device"][int(n1.split("_")[-1])] += nets[n2]
-        if n2 in components:
-            nets[n1] += components[n2]
+def run(BUILD_STATE, n, names):
+    global datas, d2s, nets, components
+    datas = []
+    d2s = []
+    for i in range(n):
+        with open("adjacency_" + str(i) + ".json", "r") as f:
+            datas.append(json.load(f))
+            d2s.append(datas[-1])
+            datas[-1] = datas[-1]["device_pins"]
+
+    for i in range(n):
+        datas[i] = json.dumps(datas[i])
+        datas[i] = "device_pins: " + datas[i]
+        datas[i] = datas[i].replace("device_pin", str(i) + "_device_pin")
+        d2s[i] = json.dumps(d2s[i])
+        # d2s[i] = "{\"device_pins\": " + d2s[i] + "}"
+        d2s[i] = d2s[i].replace("device_pin", str(i) + "_device_pin")
+        d2s[i] = json.loads(d2s[i])
+
+    client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
+    message = client.messages.create(
+        model="claude-3-5-haiku-20241022",
+        max_tokens=1024,
+        messages = [
+            {"role": "user", "content": [
+                {"type": "text", "text": SYSTEM_PROMPT + "\n\nHere is your information:\n\n" +
+                "\n\n".join(datas)}]}]
+    )
+    for i in range(n):
+        gen(i, names)
+        BUILD_STATE["status"] = f"wiring auxiliary parts for component {i+1}/{n}"
+        yield BUILD_STATE, False
+
+    BUILD_STATE["status"] = "wiring major components..."
+    yield BUILD_STATE, False
+    info = json.loads(message.content[0].text)["connections"]
+    print(info)
+
+    # remap this to create an adjacency list
+    readable_adj = {
+        name: [] for name in names if name.strip() != ""
+    }
+    for node_idx, neighbors in info.items():
+        node_name = names[int(node_idx.split("_")[0])]
+        if node_name not in readable_adj:
+            readable_adj[node_name] = []
+        for neighbor in neighbors:
+            neighbor_name = names[int(neighbor.split("_")[0])]
+            readable_adj[node_name].append(neighbor_name)
+    BUILD_STATE["adjGraph"] = readable_adj
+
+    for n1, n2s in info.items():
+        for n2 in n2s:
+            # print(n1)
+            if n1 not in nets:
+                nets[n1] = Net(n1)
+            if n2 not in nets:
+                nets[n2] = Net(n2)
+            print(n1.split("_")[0])
+            print(n1.split("_")[-1])
+            components[n1.split("_")[0] + "_main_device"][int(n1.split("_")[-1])] += nets[n2]
+            if n2 in components:
+                nets[n1] += components[n2]
         
-# ===== Generate Netlist =====
-generate_netlist()
-# generate_pcb()
+    # ===== Generate Netlist =====
+    BUILD_STATE["status"] = "generating netlist..."
+    yield BUILD_STATE, False
+    generate_netlist()
+    yield BUILD_STATE, True
+    # generate_pcb()
