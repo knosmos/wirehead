@@ -8,8 +8,8 @@ CORS(app)
 COMPONENTS = []
 CONTEXT = ""
 BUILD_STATE = {
-    "status": "idle",
-    "components": {
+  "status": "idle",
+  "components": {
     "stm32f103": {
       "name": "STM32",
       "description": "Primary microcontroller unit (MCU) for processing and control.",
@@ -43,9 +43,19 @@ BUILD_STATE = {
           "img": "/component.jpg",
         }
       }
-    }
     },
-    "adjGraph": {
+    "graphnode1": {
+      "name": "Subcircuit",
+      "description": "Hierarchical node containing its own graph.",
+      "img": "/component.jpg",
+      "subgraph": {
+        "subA": ["subB", "subC"],
+        "subB": ["subC"],
+        "subC": []
+      }
+    }
+  },
+  "adjGraph": {
     "stm32f103": ["drv8825"],
     "r1": ["stm32f103"],
     "r2": ["stm32f103"],
@@ -54,14 +64,16 @@ BUILD_STATE = {
     "drv8825": ["c1","c2","r5"],
     "c1": [],
     "c2": [],
-    "r5": []
+    "r5": [],
+    "graphnode1": ["stm32f103", "drv8825"]
   },
-    "layouts": {
+  "layouts": {
     "stm32f103": "/layout.png",
     "drv8825": "/layout.png",
     "c1": "/layout.png",
     "c2": "/layout.png",
-  } ,
+    "graphnode1": "/layout.png"
+  },
 }
 
 @app.route('/setquery', methods=['POST'])
